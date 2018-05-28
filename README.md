@@ -10,6 +10,6 @@ environment variable, which can be passed as "init", "start" or other options.
 The value of this variable will be available to the startup scripts that the
 containers use as their entrypoint, and the scripts will behave differently
 depending on what mode is passed in
-- The docker-compose files will run the containers with the user's app directory
-mounted into `/app` (with read and write access). This will allow the container
+- The docker-compose files will run the containers with the user's config directory
+mounted into `/cumulus` (with read and write access). This will allow the container
 to create new config files on `init`, and use existing config files on `start`
