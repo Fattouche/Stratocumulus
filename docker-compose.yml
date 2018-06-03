@@ -1,0 +1,9 @@
+services:
+  build:
+    context: .
+  environment:
+    CUMULUS_MODE: Init
+  name: django
+  volumes:
+  - django-volume:C:\Users\alexf\Code\Python\Stratocumulus
+version: 0
