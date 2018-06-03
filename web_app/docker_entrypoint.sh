@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ $CUMULUS_MODE == "INIT" ]
 then
   # User's cumulus config and code is mounted into /cumulus
@@ -7,5 +6,11 @@ then
   mkdir django
   cd django
 
-  # django-admin startproject cumulus_web_app
+  django-admin startproject cumulus_web_app
+elif [ $CUMULUS_MODE == "RUN" ]
+then
+  cd /cumulus
+  cd django/cumulus_web_app
+
+  python manage.py runserver 0.0.0.0:8080
 fi

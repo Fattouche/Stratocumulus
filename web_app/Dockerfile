@@ -2,15 +2,13 @@ FROM python
 
 MAINTAINER Stratocumulus
 
-# Install required packages
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y
+RUN pip install django
 
 # Put webapp code in /service
 RUN mkdir /service
 COPY . /service
 WORKDIR /service
+
+EXPOSE 8080
 
 ENTRYPOINT ["bash", "docker_entrypoint.sh"]

@@ -1,4 +1,4 @@
-# This file is for testing purposes
+# This file is for testing purposes only
 
 version: '3.2'
 services:
@@ -8,4 +8,6 @@ services:
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
     environment:
-      CUMULUS_MODE: INIT
+      CUMULUS_MODE: RUN
+    ports:
+      - "8080:8080"
