@@ -8,6 +8,6 @@ services:
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
     environment:
-      CUMULUS_MODE: RUN
+      CUMULUS_MODE: ${CUMULUS_MODE}
     ports:
       - "8080:8080"
