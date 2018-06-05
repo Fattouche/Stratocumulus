@@ -1,13 +1,19 @@
 # This file is for testing purposes only
 
-version: '3.2'
+version: '3'
 services:
-  web_app:
+  django:
     build:
-      context: .
+      context: ./django
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
     environment:
       CUMULUS_MODE: ${CUMULUS_MODE}
     ports:
       - "8080:8080"
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    ports:
+      - "3306"
