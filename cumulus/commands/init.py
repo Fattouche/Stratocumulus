@@ -9,16 +9,24 @@ class Init(Base):
 
     def run(self):
         doc = {
-            'version': self.options['--version'],
+            'version': Base.DOCKER_COMPOSE_VERSION,
             'services': {}
         }
+        services = self.options['<service>']
+        clean = self.options['--clean']
+        for service in services:
+            if(os.path.exists('./'+service)):
+                continue
+            if service in Base.WEB_APP:
+                doc['services']['web_app'] = {
+                    'image': "stratocumulus/"+service,
+                    'volumes': [os.getcwd()+':/cumulus'],
+                    'ports': ['80:80']
+                }
+            if service in Base.DATABASE:
+                doc['services']['database'] = {
+                    'image': service
+                }
 
-        for service in self.options['<service>']:
-            doc['services'] = {
-                'name': service,
-                'build': {'context': '.'},
-                'volumes': [service+'-volume:'+os.getcwd()],
-                'environment': {'CUMULUS_MODE': self.__class__.__name__}
-            }
         with open('docker-compose.yml', 'w') as outfile:
             yaml.dump(doc, outfile, default_flow_style=False)

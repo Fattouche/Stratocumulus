@@ -4,6 +4,10 @@
 class Base(object):
     """A base command."""
 
+    DATABASE = ["mysql", "postgres"]
+    WEB_APP = ["django", "rails"]
+    DOCKER_COMPOSE_VERSION = '3'
+
     def __init__(self, options, *args, **kwargs):
         self.options = options
         self.args = args
