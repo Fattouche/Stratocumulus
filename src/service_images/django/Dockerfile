@@ -2,7 +2,7 @@ FROM python
 
 MAINTAINER Stratocumulus
 
-RUN pip install django
+RUN pip install django mysqlclient
 
 # Put webapp code in /service
 RUN mkdir /service
