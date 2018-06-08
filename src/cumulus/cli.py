@@ -34,10 +34,6 @@ def main():
     """Main CLI entrypoint."""
     import commands
 
-    if(not os.path.isfile('./cumulus.yml') or not os.path.isfile('./cumulus.yaml')):
-        print("error: cumulus commands must be run inside directory containing a cumulus.yml file.")
-        return
-
     options = docopt(__doc__, version=VERSION)
     # Here we'll try to dynamically match the command the user is trying to run
     # with a pre-defined command class we've already created.

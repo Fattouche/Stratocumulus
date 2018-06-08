@@ -4,5 +4,5 @@ from .base import Base
 class Start(Base):
 
     def run(self):
-        print(self.options['<service>'][0])
-        print('Starting')
+        for service in self.options['<service>']:
+            Base.start_container(self.__class__.__name__, service)
