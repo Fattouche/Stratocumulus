@@ -12,9 +12,9 @@ class Init(Base):
             'version': Base.DOCKER_COMPOSE_VERSION,
             'services': {}
         }
-        services = self.options['<service>']
+        new_services = self.options['<service>']
         clean = self.options['--clean']
-        for service in services:
+        for service in new_services:
             if(os.path.exists('./'+service) and not clean):
                 continue
             if service in Base.WEB_APP:
@@ -29,10 +29,19 @@ class Init(Base):
                     'image': service
                 }
 
+        #Load yml if exists and add to doc
+        if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
+            compose_tree = yaml.load(open('docker-compose.yml', 'r'))
+            existing_services = compose_tree['services']
+            
+            for service in existing_services:
+                if service not in doc['services']:
+                    doc['services'][service] = existing_services[service]
+            
         with open('docker-compose.yml', 'w') as outfile:
-            yaml.dump(doc, outfile, default_flow_style=False)
+                yaml.dump(doc, outfile, default_flow_style=False)   
 
     def run(self):
         self.init_docker_compose()
-        for service in self.options['<service>']:
-            Base.start_container(self.__class__.__name__, service)
+        # for service in self.options['<service>']:
+            # Base.start_container(self.__class__.__name__, service)
