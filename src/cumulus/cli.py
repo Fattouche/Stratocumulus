@@ -12,7 +12,7 @@ Options:
   --version                         Show version.
   -a --all                          Run all
 Examples:
-  cumulus start django 
+  cumulus start django
   cumulus init django, mysql
   cumulus stop -a
   cumulus restart --all --clean
@@ -26,8 +26,9 @@ from inspect import getmembers, isclass
 
 from docopt import docopt
 
-from __init__ import __version__ as VERSION
 import os
+
+VERSION = '1.0.0'
 
 
 def main():
@@ -46,3 +47,7 @@ def main():
             command = command(options)
             command.run()
             return
+
+
+if __name__ == "__main__":
+    main()
