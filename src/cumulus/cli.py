@@ -28,7 +28,16 @@ from docopt import docopt
 
 import os
 
+from subprocess import call
+
+DOCKER_HUB = "fattouche/stratocumulus_"
+DOCKER_COMPOSE = "docker-compose"
+ENTRYPOINT = "./docker_entrypoint.sh"
+LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
+DATABASE = ["mysql", "postgres"]
+WEB_APP = ["django", "rails"]
+DOCKER_COMPOSE_VERSION = '3.6'
 
 
 def main():
@@ -47,6 +56,19 @@ def main():
             command = command(options)
             command.run()
             return
+
+
+def start_container(service):
+    call([DOCKER_COMPOSE, "up", service])
+
+
+def stop_container(service):
+    call([DOCKER_COMPOSE, "down", service])
+
+
+def init_container(service):
+    call([DOCKER_COMPOSE, "run", service, "INIT"])
+    call([DOCKER_COMPOSE, "rm", "-f", service])
 
 
 if __name__ == "__main__":
