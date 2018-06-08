@@ -2,6 +2,7 @@ FROM python
 
 MAINTAINER Stratocumulus
 
+# In future, may only want to install mysqlclient if mysql is being used
 RUN pip install django mysqlclient
 
 # Put webapp code in /service
