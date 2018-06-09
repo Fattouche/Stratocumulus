@@ -1,12 +1,13 @@
 """The base command."""
 
+import os
+import sys
+sys.path.append('../cli.py')
+from cli import *
+
 
 class Base(object):
     """A base command."""
-
-    DATABASE = ["mysql", "postgres"]
-    WEB_APP = ["django", "rails"]
-    DOCKER_COMPOSE_VERSION = '3'
 
     def __init__(self, options, *args, **kwargs):
         self.options = options

@@ -1,32 +1,47 @@
 """The init command."""
 
-from .base import Base
+from .base import *
 import yaml
 import os
+import sys
 
 
 class Init(Base):
 
-    def run(self):
+    def init_docker_compose(self):
         doc = {
-            'version': Base.DOCKER_COMPOSE_VERSION,
+            'version': DOCKER_COMPOSE_VERSION,
             'services': {}
         }
-        services = self.options['<service>']
+        new_services = self.options['<service>']
         clean = self.options['--clean']
-        for service in services:
-            if(os.path.exists('./'+service)):
+        for service in new_services:
+            if(os.path.exists('./'+service) and not clean):
                 continue
-            if service in Base.WEB_APP:
-                doc['services']['web_app'] = {
-                    'image': "stratocumulus/"+service,
+            if service in WEB_APP:
+                doc['services'][service] = {
+                    'image': DOCKER_HUB + service,
                     'volumes': [os.getcwd()+':/cumulus'],
-                    'ports': ['80:80']
+                    'ports': ['8080:8080']
                 }
-            if service in Base.DATABASE:
-                doc['services']['database'] = {
+            if service in DATABASE:
+                doc['services'][service] = {
                     'image': service
                 }
 
+        # Load yml if exists and add to doc
+        if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
+            compose_tree = yaml.load(open('docker-compose.yml', 'r'))
+            existing_services = compose_tree['services']
+
+            for service in existing_services:
+                if service not in doc['services']:
+                    doc['services'][service] = existing_services[service]
+
         with open('docker-compose.yml', 'w') as outfile:
             yaml.dump(doc, outfile, default_flow_style=False)
+
+    def run(self):
+        self.init_docker_compose()
+        for service in self.options['<service>']:
+            init_container(service)
