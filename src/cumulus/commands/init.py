@@ -1,17 +1,19 @@
 """The init command."""
 
-from .base import Base
+from .base import *
 import yaml
 import os
+import sys
 
 
 class Init(Base):
 
     def init_docker_compose(self):
         doc = {
-            'version': Base.DOCKER_COMPOSE_VERSION,
+            'version': DOCKER_COMPOSE_VERSION,
             'services': {}
         }
+
         self.already_started = []
         new_services = self.options['<service>']
         clean = self.options['--clean']
@@ -19,18 +21,20 @@ class Init(Base):
             if(os.path.exists('./'+service) and not clean):
                 self.already_started.append(service)
                 continue
-            if service in Base.WEB_APP:
+                
+            if service in WEB_APP:
                 doc['services'][service] = {
-                    # 'image': Base.DOCKER_HUB + service,
-                    'build': {'context': './service_images/django'},
+                    'image': DOCKER_HUB + service,
                     'volumes': [os.getcwd()+':/cumulus'],
                     'ports': ['8080:8080']
                 }
-            if service in Base.DATABASE:
+            if service in DATABASE:
                 doc['services'][service] = {
                     'image': service
                 }
 
+
+  
         #Load yml if exists and add to doc
         if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
             compose_tree = yaml.load(open('docker-compose.yml', 'r'))
@@ -47,11 +51,11 @@ class Init(Base):
                         doc[config_attribute] = compose_tree[config_attribute]
         
         with open('docker-compose.yml', 'w') as outfile:
-                yaml.dump(doc, outfile, default_flow_style=False)   
+                yaml.dump(doc, outfile, default_flow_style=False) 
 
     def run(self):
         self.init_docker_compose()
-
         for service in self.options['<service>']:
             if service not in self.already_started:
-                # Base.start_container(self.__class__.__name__, service)
+                init_container(service)
+

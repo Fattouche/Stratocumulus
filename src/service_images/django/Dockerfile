@@ -11,3 +11,5 @@ WORKDIR /service
 
 EXPOSE 8080
 
+ENTRYPOINT [ "bash", "docker_entrypoint.sh" ]
+
