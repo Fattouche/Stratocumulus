@@ -30,7 +30,7 @@ import os
 
 from subprocess import call
 
-DOCKER_HUB = "fattouche/stratocumulus_"
+DOCKER_HUB = "strcum/"
 DOCKER_COMPOSE = "docker-compose"
 ENTRYPOINT = "./docker_entrypoint.sh"
 LOGFILE = "docker-compose-log.out"
