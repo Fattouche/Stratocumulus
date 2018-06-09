@@ -10,8 +10,11 @@ services:
     ports:
       - "8080:8080"
   mysql:
-    image: mysql
+    build:
+      context: ./mysql
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     ports:
       - "3306"
+    volumes:
+      -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
