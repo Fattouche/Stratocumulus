@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $1 == "INIT" ]
+if [ "$1" == "INIT" ]
 then
   # User's cumulus config and code is mounted into /cumulus
   cd /cumulus
