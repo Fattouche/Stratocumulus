@@ -1,10 +1,10 @@
 #!/bin/bash
-if [ "$1" == "INIT" ]
+set -e
+
+if [ "$CUMULUS_MODE" == "INIT" ]
 then
-  # User's cumulus config and code is mounted into /cumulus
-  cd /cumulus
-  mkdir django
-  cd django
+  # User's django code is mounted into /cumulus/django
+  cd /cumulus/django
 
   django-admin startproject cumulus_web_app
 else

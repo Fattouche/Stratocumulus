@@ -8,8 +8,8 @@ Usage:
   cumulus -h | --help
   cumulus --version
 Options:
-  -h --help                         Show this screen.
-  --version                         Show version.
+  -h --help                         Show this screen
+  --version                         Show version
   -a --all                          Run all
 Examples:
   cumulus start django
@@ -67,7 +67,7 @@ def stop_container(service):
 
 
 def init_container(service):
-    call([DOCKER_COMPOSE, "run", service, "INIT"])
+    call([DOCKER_COMPOSE, "run", "-e", "CUMULUS_MODE=INIT", service])
     call([DOCKER_COMPOSE, "rm", "-f", service])
 
 
