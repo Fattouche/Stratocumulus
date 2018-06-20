@@ -1,17 +1,17 @@
 """
 cumulus
 Usage:
-  cumulus start (<service>... | (-a | --all))
+  cumulus start [<service>...]
   cumulus init (<service>...) [--clean]
-  cumulus stop (<service>... | (-a | --all))
-  cumulus restart (<service>... | (-a | --all)) [--clean]
+  cumulus stop [<service>...]
+  cumulus restart [<service>...] [--clean]
   cumulus -h | --help
   cumulus --version
 Options:
   -h --help                         Show this screen.
   --version                         Show version.
-  -a --all                          Run all
 Examples:
+  cumulus start
   cumulus start django
   cumulus init django, mysql
   cumulus stop -a
@@ -30,6 +30,7 @@ import os
 
 from subprocess import call
 
+
 DOCKER_HUB = "strcum/"
 DOCKER_COMPOSE = "docker-compose"
 ENTRYPOINT = "./docker_entrypoint.sh"
@@ -37,6 +38,9 @@ LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
 DATABASE = ["mysql", "postgres"]
 WEB_APP = ["django", "rails"]
+PORTS = {"django": "41000", "rails": "41001"}
+COMMANDS = {"django": "python manage.py runserver 0:"+PORTS["django"],
+            "rails": "rails server -b 0.0.0.0:"+PORTS["rails"]}
 DOCKER_COMPOSE_VERSION = '3.6'
 
 
@@ -59,11 +63,17 @@ def main():
 
 
 def start_container(service):
-    call([DOCKER_COMPOSE, "up", service])
+    if service:
+        call([DOCKER_COMPOSE, "up", "-d", service])
+    else:
+        call([DOCKER_COMPOSE, "up", "-d"])
 
 
 def stop_container(service):
-    call([DOCKER_COMPOSE, "down", service])
+    if service:
+        call([DOCKER_COMPOSE, "down", service])
+    else:
+        call([DOCKER_COMPOSE, "down"])
 
 
 def init_container(service):
