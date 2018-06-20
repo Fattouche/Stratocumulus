@@ -77,7 +77,7 @@ def stop_container(service):
 
 
 def restart_container(service):
-     if service:
+    if service:
         call([DOCKER_COMPOSE, "restart", service])
     else:
         call([DOCKER_COMPOSE, "restart"])
