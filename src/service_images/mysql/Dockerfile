@@ -1,4 +1,4 @@
-FROM mysql
+FROM mysql:8.0.11
 
 # Put service code (eg, entrypoint script) in /service
 RUN mkdir /service
