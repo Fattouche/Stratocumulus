@@ -14,30 +14,28 @@ class Init(Base):
             'services': {}
         }
         project = "example"
-        hostname = project+".cumulus.com"
+        hostname = "{0}.cumulus.com".format(project)
         self.already_started = []
         new_services = self.options['<service>']
         clean = self.options['--clean']
         for service in new_services:
-            if(os.path.exists('./'+service) and not clean):
+            if(os.path.exists('./{0}'.format(service)) and not clean):
                 self.already_started.append(service)
                 continue
-            name = project+"_"+service
+            name = "{0}_{1}".format(project, service)
             if service in WEB_APP:
                 doc['services'][service] = {
-                    # 'image': DOCKER_HUB + service, uncomment before merging
+                    # 'image': "{0}{1}".format(DOCKER_HUB, service),
                     'container_name': name,
                     'build': {'context': './service_images/django'},
-                    'volumes': [os.getcwd()+':/cumulus'],
-                    'ports': [PORTS[service]+':'+PORTS[service]],
-                    'command': COMMANDS[service],
-                    'network_mode': 'bridge'}
+                    'volumes': ['{0}:/cumulus'.format(os.getcwd())],
+                    'ports': ['{0}:{1}'.format(PORTS[service], PORTS[service])],
+                    'command': COMMANDS[service]}
             if service in DATABASE:
                 doc['services'][service] = {
                     'container_name': name,
                     'image': service,
-                    'ports': [PORTS[service]+':'+PORTS[service]],
-                    'network_mode': 'bridge'
+                    'ports': ['{0}:{1}'.format(PORTS[service], PORTS[service])]
                 }
 
         # Load yml if exists and add to doc

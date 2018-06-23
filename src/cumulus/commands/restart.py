@@ -1,6 +1,6 @@
 """The restart command."""
 
-from .base import Base
+from .base import *
 
 
 class Restart(Base):
