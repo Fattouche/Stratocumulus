@@ -1,9 +1,13 @@
 """The stop command."""
 
-from .base import Base
+from .base import *
 
 
 class Stop(Base):
 
     def run(self):
-        print('Stopping')
+        if not self.options['<service>']:
+            stop_container("")
+        else:
+            for service in self.options['<service>']:
+                stop_container(service)

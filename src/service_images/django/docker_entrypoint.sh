@@ -13,6 +13,5 @@ then
 else
   cd /cumulus
   cd django/cumulus_web_app
-
-  python manage.py runserver 0.0.0.0:8080
+  exec "$@"
 fi

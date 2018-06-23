@@ -1,8 +1,13 @@
-from .base import Base
+from .base import *
 
 
 class Start(Base):
 
     def run(self):
-        for service in self.options['<service>']:
-            Base.start_container(self.__class__.__name__, service)
+        if not self.options['<service>']:
+            start_container("")
+        else:
+            for service in self.options['<service>']:
+                start_container(service)
+        notify_active_port()
+        print("logs available using `cumulus logs [<service>] [-f]`")

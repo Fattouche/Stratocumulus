@@ -1,9 +1,13 @@
 """The restart command."""
 
-from .base import Base
+from .base import *
 
 
 class Restart(Base):
 
     def run(self):
-        print('Starting')
+        if not self.options['<service>']:
+            restart_container("")
+        else:
+            for service in self.options['<service>']:
+                restart_container(service)
