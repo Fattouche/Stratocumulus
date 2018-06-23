@@ -25,9 +25,8 @@ class Init(Base):
             name = "{0}_{1}".format(project, service)
             if service in WEB_APP:
                 doc['services'][service] = {
-                    # 'image': "{0}{1}".format(DOCKER_HUB, service),
+                    'image': "{0}{1}".format(DOCKER_HUB, service),
                     'container_name': name,
-                    'build': {'context': './service_images/django'},
                     'volumes': ['{0}:/cumulus'.format(os.getcwd())],
                     'ports': ['{0}:{1}'.format(PORTS[service], PORTS[service])],
                     'command': COMMANDS[service]}
