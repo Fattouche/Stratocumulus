@@ -8,13 +8,12 @@ services:
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace/django:/cumulus/django"
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       CUMULUS_MODE: START
   mysql:
     build:
       context: ./mysql
-    command: [ "mysqld" ]
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       CUMULUS_MODE: START
@@ -22,3 +21,6 @@ services:
       - "3306"
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace/mysql:/cumulus/mysql"
+      - "mysql-data:/var/lib/mysql"
+volumes:
+  mysql-data:
