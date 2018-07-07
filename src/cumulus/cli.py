@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 cumulus
 Usage:
