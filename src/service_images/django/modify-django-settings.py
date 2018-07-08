@@ -1,7 +1,7 @@
 """
 modify-django-settings
 Usage:
-  modify-django-settings <settings-file-path> <mysql-config-file-path> [--mysql]
+  modify-django-settings <settings-file-path> [--mysql-config-path=<mysql-config-file-path> --mysql-db=<mysql-default-db-name>]
   modify-django-settings (-h | --help)
 Options:
   -h --help                         Show this screen
@@ -53,7 +53,8 @@ def get_end_of_dict_index_from_code_string(code_string, start_index):
     return i
 
 
-def overwrite_settings_for_mysql(settings_as_string, mysql_config_file_path):
+def overwrite_settings_for_mysql(settings_as_string, mysql_config_file_path,
+                                mysql_default_db_name):
     # Define the settings string that will be used to hook Django up with
     # MySQL
     # Depending on the text editor, this may only use tabs, even if the original
@@ -68,12 +69,20 @@ def overwrite_settings_for_mysql(settings_as_string, mysql_config_file_path):
     "\t# see the Django documentation\n"
     "\t'default': {{\n"
     "\t\t'ENGINE': 'django.db.backends.mysql',\n"
+    "\t\t'HOST': 'mysql',\n").format()
+
+    if mysql_default_db_name:
+        mysql_database_settings_string += (""
+        "\t\t'NAME': '{mysql_default_db_name}',\n").format(
+            mysql_default_db_name=mysql_default_db_name)
+    
+    mysql_database_settings_string += (""
     "\t\t'OPTIONS': {{\n"
     "\t\t\t'read_default_file': '{user_mysql_config_path}'\n"
     "\t\t}},\n"
     "\t}}\n"
     "}}"
-    ).format(user_mysql_config_path=arguments['<mysql-config-file-path>'])
+    ).format(user_mysql_config_path=mysql_config_file_path)
 
     databases_dict_start_index = settings_as_string.index('DATABASES')
 
@@ -95,9 +104,10 @@ if __name__ == '__main__':
     with open(arguments['<settings-file-path>'], 'r') as settings_file:
         update_settings_as_string = settings_file.read()
 
-    if (arguments['--mysql']):
+    if (arguments['--mysql-config-path']):
         update_settings_as_string = overwrite_settings_for_mysql(
-            update_settings_as_string, arguments['<mysql-config-file-path>'])
+            update_settings_as_string, arguments['--mysql-config-path'],
+            arguments['--mysql-db'])
 
     with open(arguments['<settings-file-path>'], 'w') as settings_file:
         settings_file.write(update_settings_as_string)

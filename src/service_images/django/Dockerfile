@@ -1,7 +1,5 @@
 FROM python:3.6.5
 
-MAINTAINER Stratocumulus
-
 RUN mkdir /service
 WORKDIR /service
 
@@ -11,4 +9,4 @@ RUN pip install -r requirements.txt
 # Put webapp code in /service
 COPY . /service
 
-ENTRYPOINT ["bash", "docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "cumulus-docker-entrypoint.sh"]

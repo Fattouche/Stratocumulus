@@ -1,26 +1,38 @@
 # This file is for testing purposes only
 
+# Usage:
+# - Set "CUMULUS_SERVICES" environment variable to a comma-separated list of
+# the services that are being created (there may be a more elegant way to do
+# this in future)
+# - To rebuild image: docker-compose build
+# - For init (do this for each service): docker-compose run -e CUMULUS_MODE=INIT [service name]
+# - For start: docker-compose up
+
 version: '3'
 services:
   django:
     build:
       context: ./django
     volumes:
-      -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace/django:/cumulus/django"
+      -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
     ports:
       - "8081:8080"
     environment:
       CUMULUS_MODE: START
+      CUMULUS_SERVICES: django,mysql
+      MYSQL_DATABASE: cumulus_default
   mysql:
     build:
       context: ./mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       CUMULUS_MODE: START
+      CUMULUS_SERVICES: django,mysql
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: cumulus_default
     ports:
       - "3306"
     volumes:
-      -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace/mysql:/cumulus/mysql"
+      -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
       - "mysql-data:/var/lib/mysql"
 volumes:
   mysql-data:
