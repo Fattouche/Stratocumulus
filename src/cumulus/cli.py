@@ -90,11 +90,6 @@ def init_container(service):
     subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"])
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
 
-
-def init_shell(service, shell):
-    subprocess.call([DOCKER_COMPOSE, "exec", service, shell])
-
-
 def display_logs(service, follow):
     if service:
         command = [DOCKER_COMPOSE, "logs", service]
