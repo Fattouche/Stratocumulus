@@ -28,7 +28,7 @@ class Init(Base):
                     'image': "{0}{1}".format(DOCKER_HUB, service),
                     'container_name': name,
                     'volumes': ['{0}:/cumulus'.format(os.getcwd())],
-                    'ports': ['{0}:{1}'.format(PORTS[service], PORTS[service])],
+                    'ports': ['{0}'.format(PORTS[service])],
                     'command': COMMANDS[service]}
             if service in DATABASE:
                 doc['services'][service] = {

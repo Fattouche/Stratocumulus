@@ -3,7 +3,7 @@ cumulus
 Usage:
   cumulus start [<service>...]
   cumulus init (<service>...) [--clean]
-  cumulus stop [<service>...]
+  cumulus stop
   cumulus restart [<service>...] [--clean]
   cumulus logs [<service>] [-f]
   cumulus shell [<service>] [--shell=<shell>]
@@ -16,7 +16,7 @@ Examples:
   cumulus start
   cumulus start django
   cumulus init django, mysql
-  cumulus stop -a
+  cumulus stop
   cumulus restart --all --clean
   cumulus logs -f
   cumulus shell django --shell=zsh
@@ -72,11 +72,8 @@ def start_container(service):
         subprocess.call([DOCKER_COMPOSE, "up", "-d"])
 
 
-def stop_container(service):
-    if service:
-        subprocess.call([DOCKER_COMPOSE, "down", service])
-    else:
-        subprocess.call([DOCKER_COMPOSE, "down"])
+def stop_container():
+    subprocess.call([DOCKER_COMPOSE, "down"])
 
 
 def restart_container(service):
@@ -89,6 +86,7 @@ def restart_container(service):
 def init_container(service):
     subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"])
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
+
 
 def display_logs(service, follow):
     if service:
