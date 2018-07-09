@@ -1,0 +1,11 @@
+services:
+  django:
+    command: python manage.py runserver 0:41000
+    container_name: example_django
+    build:
+      context: ./service_images/django
+    ports:
+    - 41000:41000
+    volumes:
+    - C:\Users\alexf\Code\Python\Stratocumulus\src:/cumulus
+version: '3.6'
