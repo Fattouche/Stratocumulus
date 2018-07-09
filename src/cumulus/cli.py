@@ -6,6 +6,7 @@ Usage:
   cumulus stop [<service>...]
   cumulus restart [<service>...] [--clean]
   cumulus logs [<service>] [-f]
+  cumulus shell [<service>] [--shell=<shell>]
   cumulus -h | --help
   cumulus --version
 Options:
@@ -18,6 +19,7 @@ Examples:
   cumulus stop -a
   cumulus restart --all --clean
   cumulus logs -f
+  cumulus shell django --shell=zsh
 Help:
   For bugs using this tool, please open an issue on the Github repository:
   https://github.com/fattouche/stratocumulus
@@ -30,7 +32,7 @@ import subprocess
 import yaml
 import sys
 
-
+START_SHELL = "./start_shell.sh"
 DOCKER_HUB = "strcum/"
 DOCKER_COMPOSE = "docker-compose"
 DOCKER = "docker"
@@ -39,6 +41,7 @@ LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
 DATABASE = ["mysql", "postgres"]
 WEB_APP = ["django", "rails"]
+SHELLS = ["bash", "zsh", "sh"]
 PORTS = {"django": "41000", "rails": "41001"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"])}
@@ -87,7 +90,6 @@ def init_container(service):
     subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"])
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
 
-
 def display_logs(service, follow):
     if service:
         command = [DOCKER_COMPOSE, "logs", service]
@@ -99,6 +101,38 @@ def display_logs(service, follow):
         subprocess.call(command)
     except KeyboardInterrupt:  # Need to just return from the subprocess
         return
+
+
+def start_shell(service, shell):
+    if service:
+        subprocess.call([DOCKER_COMPOSE, "exec", service, START_SHELL, shell])
+    else:
+        service = parse_services()["WEB_APP"]
+        if(len(service) == 1):
+            subprocess.call(
+                [DOCKER_COMPOSE, "exec", service[0], START_SHELL, shell])
+        else:
+            print("Shell command defaults to web_app, however no such service was found")
+
+
+def parse_services():
+    service_map = {}
+    with open("docker-compose.yml", 'r') as stream:
+        try:
+            data = yaml.load(stream)
+            services = data['services']
+            for service in services:
+                if service in WEB_APP:
+                    if "WEB_APP" not in service_map:
+                        service_map["WEB_APP"] = []
+                    service_map["WEB_APP"].append(service)
+                if service in DATABASE:
+                    if "DATABASE" not in service_map:
+                        service_map["DATABASE"] = []
+                    service_map["DATABASE"].append(service)
+        except yaml.YAMLError as exc:
+            print(exc)
+    return service_map
 
 
 def notify_active_port():
@@ -131,6 +165,19 @@ def notify_active_port():
                                                                ', '.join(addresses)))
         except yaml.YAMLError as exc:
             print(exc)
+
+
+def current_shell():
+    raw = os.getenv("SHELL")
+    if raw is None:
+        print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
+        shell = "sh"
+        return shell
+    shell = raw.split('/', 1)[-1]
+    if shell not in SHELLS:
+        print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
+        shell = "sh"
+    return shell
 
 
 if __name__ == "__main__":
