@@ -31,6 +31,9 @@ import os
 import subprocess
 import yaml
 import sys
+from datetime import datetime
+from io import StringIO
+
 
 START_SHELL = "./start_shell.sh"
 DOCKER_HUB = "strcum/"
@@ -47,11 +50,11 @@ COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"])
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"])}
 DOCKER_COMPOSE_VERSION = '3.6'
 
-
 def main():
     """Main CLI entrypoint."""
     import commands
     options = docopt(__doc__, version=VERSION)
+    
     for (k, v) in options.items():
         if hasattr(commands, k) and v:
             module = getattr(commands, k)
@@ -60,14 +63,18 @@ def main():
                        for command in commands if command[0] != 'Base'][0]
             command = command(options)
             command.run()
+            clean_logs()
             return
-
     exit(__doc__)
 
 
 def start_container(service):
     if service:
-        subprocess.call([DOCKER_COMPOSE, "up", "-d", service])
+        print ('Starting {0}...'.format(service))
+        subprocess.call([DOCKER_COMPOSE, "up", "-d", service])#, stdout=log_file, stderr=subprocess.STDOUT)
+        print ('{0} Started!'.format(service))
+        #output, _ = subprocess.Popen([DOCKER_COMPOSE, "up", "-d", service], stdout=log_file, stderr=subprocess.STDOUT).communicate()
+        #log_file.write(StringIO(output))
     else:
         subprocess.call([DOCKER_COMPOSE, "up", "-d"])
 
@@ -84,8 +91,13 @@ def restart_container(service):
 
 
 def init_container(service):
-    subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"])
-    subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
+    log_time_string = '\n\n{0}\n'.format(datetime.now().strftime('%m-%d-%Y %H:%M:%S'))
+    with open(LOGFILE, 'a') as log_file:
+        log_file.write(log_time_string)
+        print ('Initializing {0}...'.format(service))
+        subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"], stdout=log_file, stderr=subprocess.STDOUT)
+        subprocess.call([DOCKER_COMPOSE, "rm", "-f", service], stdout=log_file, stderr=subprocess.STDOUT)
+        print ("{0} initialized! \nRun 'cumulus start <service>' to start the container".format(service))
 
 
 def display_logs(service, follow):
@@ -176,6 +188,16 @@ def current_shell():
         print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
         shell = "sh"
     return shell
+
+# Clean garbage (docker ansi color logs) out of log file
+def clean_logs():
+    with open(LOGFILE, 'r+') as log_file:
+        lines = log_file.readlines()
+        log_file.seek(0)
+        for line in lines:
+            if '\x1b' not in line:
+                log_file.write(line)
+        log_file.truncate()
 
 
 if __name__ == "__main__":
