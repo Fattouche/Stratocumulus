@@ -91,9 +91,11 @@ def restart_container(service):
 
 
 def init_container(service):
-    log_time_string = '\n\n{0}\n'.format(datetime.now().strftime('%m-%d-%Y %H:%M:%S'))
+    
     with open(LOGFILE, 'a') as log_file:
+        log_time_string = '\n\n{0}\n'.format(datetime.now().strftime('%m-%d-%Y %H:%M:%S'))
         log_file.write(log_time_string)
+    with open(LOGFILE, 'a') as log_file:
         print ('Initializing {0}...'.format(service))
         subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"], stdout=log_file, stderr=subprocess.STDOUT)
         subprocess.call([DOCKER_COMPOSE, "rm", "-f", service], stdout=log_file, stderr=subprocess.STDOUT)
