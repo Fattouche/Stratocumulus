@@ -54,7 +54,6 @@ def main():
     """Main CLI entrypoint."""
     import commands
     options = docopt(__doc__, version=VERSION)
-    
     for (k, v) in options.items():
         if hasattr(commands, k) and v:
             module = getattr(commands, k)
@@ -71,10 +70,8 @@ def main():
 def start_container(service):
     if service:
         print ('Starting {0}...'.format(service))
-        subprocess.call([DOCKER_COMPOSE, "up", "-d", service])#, stdout=log_file, stderr=subprocess.STDOUT)
+        subprocess.call([DOCKER_COMPOSE, "up", "-d", service])
         print ('{0} Started!'.format(service))
-        #output, _ = subprocess.Popen([DOCKER_COMPOSE, "up", "-d", service], stdout=log_file, stderr=subprocess.STDOUT).communicate()
-        #log_file.write(StringIO(output))
     else:
         subprocess.call([DOCKER_COMPOSE, "up", "-d"])
 
