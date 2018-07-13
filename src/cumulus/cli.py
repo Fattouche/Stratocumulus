@@ -32,6 +32,7 @@ import subprocess
 import yaml
 import sys
 import prerequisite
+from collections import defaultdict
 
 START_SHELL = "./start_shell.sh"
 DOCKER_HUB = "strcum/"
@@ -68,10 +69,22 @@ def main():
 
 
 def start_container(service):
+    service_map = parse_services()
+
+    docker_compose_call = [DOCKER_COMPOSE, "up", "-d"]
+
+    docker_compose_call.insert('-e')
+    cumulus_mode_string = 'CUMULUS_MODE='
+    for other_service in service_map.values():
+        cumulus_mode_string += other_service
+        cumulus_mode_string += ','
+    docker_compose_call.insert(cumulus_mode_string)
+        
     if service:
-        subprocess.call([DOCKER_COMPOSE, "up", "-d", service])
+        docker_compose_call.insert(service)
+        subprocess.call(docker_compose_call)
     else:
-        subprocess.call([DOCKER_COMPOSE, "up", "-d"])
+        subprocess.call(docker_compose_call)
 
 
 def stop_container():
@@ -116,20 +129,22 @@ def start_shell(service, shell):
 
 
 def parse_services():
-    service_map = {}
+    service_map = defaultdict(list)
     with open("docker-compose.yml", 'r') as stream:
         try:
             data = yaml.load(stream)
             services = data['services']
             for service in services:
                 if service in WEB_APP:
-                    if "WEB_APP" not in service_map:
-                        service_map["WEB_APP"] = []
                     service_map["WEB_APP"].append(service)
-                if service in DATABASE:
-                    if "DATABASE" not in service_map:
-                        service_map["DATABASE"] = []
+                elif service in DATABASE:
                     service_map["DATABASE"].append(service)
+                elif service in SUPPORTED:
+                    service_map["OTHER_SUPPORTED"].append(service)
+                else:
+                    service_map["UNSUPPORTED"].append(service)
+                
+
         except yaml.YAMLError as exc:
             print(exc)
     return service_map
