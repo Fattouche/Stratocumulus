@@ -2,7 +2,7 @@
 cumulus
 Usage:
   cumulus start [<service>...]
-  cumulus init (<service>...) [--clean]
+  cumulus init (<service>...) [--clean] [--project-name=<project>]
   cumulus stop
   cumulus restart [<service>...] [--clean]
   cumulus logs [<service>] [-f]
@@ -40,10 +40,13 @@ DOCKER = "docker"
 ENTRYPOINT = "./docker_entrypoint.sh"
 LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
-DATABASE = ["mysql", "postgres"]
+DATABASE = ["mysql"]
 WEB_APP = ["django", "rails"]
 SHELLS = ["bash", "zsh", "sh"]
-PORTS = {"django": "41000", "rails": "41001"}
+MISC = ["redis", "elasticsearch", "memcached"]
+NEED_INIT = WEB_APP+DATABASE
+SUPPORTED = WEB_APP+DATABASE+MISC
+PORTS = {"django": "41000", "rails": "41001", "redis": "6379"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"])}
 DOCKER_COMPOSE_VERSION = '3.6'
