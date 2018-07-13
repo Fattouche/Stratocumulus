@@ -43,7 +43,9 @@ VERSION = '1.0.0'
 DATABASE = ["mysql"]
 WEB_APP = ["django", "rails"]
 SHELLS = ["bash", "zsh", "sh"]
+MISC = ["redis", "elasticsearch", "memcached"]
 NEED_INIT = WEB_APP+DATABASE
+SUPPORTED = WEB_APP+DATABASE+MISC
 PORTS = {"django": "41000", "rails": "41001", "redis": "6379"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"])}

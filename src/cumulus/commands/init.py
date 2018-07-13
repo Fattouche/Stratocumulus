@@ -49,11 +49,17 @@ class Init(Base):
                     'volumes': ['{0}:/cumulus'.format(os.getcwd())],
                     'ports': ['{0}'.format(PORTS[service])],
                     'command': COMMANDS[service]}
-            else:
+            elif service in SUPPORTED:
                 doc['services'][service] = {
                     'container_name': name,
                     'image': service,
                     'ports': ['{0}'.format(PORTS[service])]
+                }
+            else:
+                print("Warning: service {0} is unsupported.".format(service))
+                doc['services'][service] = {
+                    'container_name': name,
+                    'image': service
                 }
 
         # Load yml if exists and add to doc
