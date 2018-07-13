@@ -71,6 +71,40 @@ def main():
 
     exit(__doc__)
 
+# Gets project name from docker-compose.yml
+# If it's not there, simply use the user's working directory as the project name
+def get_project_name():
+    compose_tree = {}
+    project = ''
+
+    if (os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
+        compose_tree = yaml.load(open('docker-compose.yml', 'r'))
+        if 'x-project-name' in compose_tree:
+            project = compose_tree['x-project-name']
+    
+    if not project:
+        project = os.getcwd().split(os.sep)[-1]
+
+    return project
+
+
+def get_service_start_params(service):
+    service_start_params = []
+
+    if service.lower() == 'django':
+        # Need to do this due to the bug in the MySQL docker container
+        # see https://github.com/docker-library/mysql/issues/448#issuecomment-403552073
+        # 
+        # Once this is fixed, the database name can instead be passed to MySQL
+        # during init (possibly into the docker-compose file, if we want to 
+        # expose it to the user), and written to the user's MySQL config file, which
+        # Django will then read from (as set up in Django's settings.py)
+        service_start_params.insert('-e')
+        base = Init
+        project_name = base.get_and_set_project(None, None)
+        service_start_params.insert('MYSQL_DATABASE={}_default'.format(
+            get_project_name()
+        ))
 
 def start_container(service):
     service_map = parse_services()
@@ -78,16 +112,20 @@ def start_container(service):
     docker_compose_call = [DOCKER_COMPOSE, "up", "-d"]
 
     docker_compose_call.insert('-e')
-    cumulus_mode_string = 'CUMULUS_MODE='
+    cumulus_mode_string = 'CUMULUS_SERVICES='
     for other_service in service_map.values():
         cumulus_mode_string += other_service
         cumulus_mode_string += ','
     docker_compose_call.insert(cumulus_mode_string)
+
         
     if service:
+        docker_compose_call += get_service_start_params(service)
         docker_compose_call.insert(service)
         subprocess.call(docker_compose_call)
     else:
+        for service in service_map.values():
+            docker_compose_call += get_service_start_params(service)
         subprocess.call(docker_compose_call)
 
 

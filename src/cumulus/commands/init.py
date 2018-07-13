@@ -34,7 +34,7 @@ class Init(Base):
         self.update_supported(doc, service, working_dir)
         if service == 'mysql':
             doc['services'][service]['environment'] = {
-                'MYSQL_RANDOM_ROOT_PASSWORD': 'yes'}
+                'MYSQL_ALLOW_EMPTY_PASSWORD': 'yes'}
 
     def update_supported(self, doc, service, working_dir):
         doc['services'][service]['image'] = '{docker_hub_repo}{image}'.format(
