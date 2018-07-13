@@ -12,16 +12,22 @@ class Init(Base):
             'version': DOCKER_COMPOSE_VERSION,
             'services': {}
         }
-
+        project = "example"
+        hostname = "{0}.cumulus.com".format(project)
         self.already_started = []
         new_services = self.options['<service>']
         clean = self.options['--clean']
 
         for service in new_services:
+            
             if(os.path.exists('./{}'.format(service)) and not clean):
+                self.already_started.append(service)
                 continue
 
+            name = "{}_{}".format(project, service)
+
             doc['services'][service] = {
+                'container_name': name,
                 'image': '{docker_hub_repo}/{image}'.format(
                                 docker_hub_repo=DOCKER_HUB,
                                 image=service
@@ -33,14 +39,10 @@ class Init(Base):
                 ],
                 'environment': {
                     'CUMULUS_MODE': 'START'
-                }
-
-            if service in WEB_APP:
-                doc['services'][service]['ports'] = ['8080:8080']
+                },
+                'ports': ['{}'.format(PORTS[service])]
 
             if service == 'mysql':
-                doc['services'][service]['ports'] = ['3306']
-
                 doc['services'][service] \
                     ['environment']['MYSQL_RANDOM_ROOT_PASSWORD'] = 'yes'
 
@@ -63,6 +65,7 @@ class Init(Base):
                         doc[config_attribute] = compose_tree[config_attribute]
 
         with open('docker-compose.yml', 'w') as outfile:
+<<<<<<< HEAD
                 yaml.dump(doc, outfile, default_flow_style=False)
 
 
@@ -77,6 +80,9 @@ class Init(Base):
             if not os.path.exists(service_directory):
                 os.makedirs(service_directory)
 
+=======
+            yaml.dump(doc, outfile, default_flow_style=False)
+>>>>>>> origin/master
 
     def run(self):
         working_dir = os.getcwd()

@@ -1,9 +1,9 @@
 """The stop command."""
 
-from .base import Base
+from .base import *
 
 
 class Stop(Base):
 
     def run(self):
-        print('Stopping')
+        stop_container()
