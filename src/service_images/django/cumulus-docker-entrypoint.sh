@@ -2,7 +2,7 @@
 DJANGO_PROJECT_NAME="cumulus_web_app"
 
 
-if [ "$CUMULUS_MODE" == "INIT" ]
+if [ "$1" == "INIT" ]
 then
 
   # User's cumulus config and code is mounted into /cumulus
@@ -50,5 +50,5 @@ else
     fi
   done
 
-  python manage.py runserver 0.0.0.0:8080
+  exec "$@"
 fi
