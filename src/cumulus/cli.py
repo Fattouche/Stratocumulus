@@ -31,6 +31,7 @@ import os
 import subprocess
 import yaml
 import sys
+import prerequisite
 
 START_SHELL = "./start_shell.sh"
 DOCKER_HUB = "strcum/"
@@ -51,6 +52,7 @@ DOCKER_COMPOSE_VERSION = '3.6'
 def main():
     """Main CLI entrypoint."""
     import commands
+    prerequisite.check_docker()
     options = docopt(__doc__, version=VERSION)
     for (k, v) in options.items():
         if hasattr(commands, k) and v:
