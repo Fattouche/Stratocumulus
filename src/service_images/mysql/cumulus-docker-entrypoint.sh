@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ "$CUMULUS_MODE" == "INIT" ]
+if [ "$1" == "INIT" ]
 then
   # Run the base image's docker-entrypoint, to initialize myslq stuff
   /usr/local/bin/docker-entrypoint.sh
@@ -35,6 +35,7 @@ else
   rm -rf /etc/mysql
   ln -s /cumulus/mysql /etc/mysql
 
-  # Run the base image's docker-entrypoint, with mysqld (so that it will start the server)
-  /usr/local/bin/docker-entrypoint.sh mysqld
+  # Run the base image's docker-entrypoint
+  # Default command will be mysqld, but can be overridden by user
+  /usr/local/bin/docker-entrypoint.sh "$@"
 fi
