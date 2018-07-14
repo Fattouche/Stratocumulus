@@ -54,33 +54,23 @@ def parse_services():
 # Gets any docker-compose environment variables that must be defined for a 
 # particular service
 def get_service_environment_vars(service):
-    environment_vars = []
+    environment_vars = {}
 
     if service.lower() == 'django':
-        service_docker_params.append({
-            'CUMULUS_PROJECT_NAME': get_project_name()
-        })
+        service_map = parse_services()
+
+        environment_vars['CUMULUS_PROJECT_NAME'] = get_project_name()
+
+        databases = service_map['DATABASE']
+        wait_for_string = ''
+        for database in databases:
+            wait_for_string += database
+            wait_for_string += ','
+
+        if wait_for_string:
+            environment_vars['CUMULUS_WAIT_FOR'] = wait_for_string[:-1]  # remove the last , from the string
 
     return environment_vars
-
-
-# Gets any docker-compose parameters that must be added for any service combination
-# Will be used for both init and start
-def get_common_environment_vars():
-    common_params = []
-    service_map = parse_services()
-
-    common_params.append('-e')
-
-    cumulus_services_string = 'CUMULUS_SERVICES='
-    for service_list in service_map.values():
-        for service in service_list:
-            cumulus_services_string += service
-            cumulus_services_string += ','
-
-    common_params.append(cumulus_services_string)
-
-    return common_params
 
 
 # Gets the shell that the user is currently using
