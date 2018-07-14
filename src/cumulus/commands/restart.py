@@ -7,7 +7,7 @@ class Restart(Base):
 
     def run(self):
         if not self.options['<service>']:
-            restart_container("")
+            restart_containers()
         else:
             for service in self.options['<service>']:
-                restart_container(service)
+                restart_containers(service)

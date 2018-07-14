@@ -6,4 +6,4 @@ from .base import *
 class Stop(Base):
 
     def run(self):
-        stop_container()
+        stop_containers()

@@ -68,32 +68,20 @@ def main():
     exit(__doc__)
 
 
-def start_container(service):
-    service_map = parse_services()
-
+def start_containers(service=None):
     docker_compose_call = [DOCKER_COMPOSE, "up", "-d"]
-
-    docker_compose_call += get_common_docker_params()
         
     if service:
-        docker_compose_call += get_service_docker_params(service)
         docker_compose_call.append(service)
-        subprocess.call(docker_compose_call)
-    else:
-        # In this case we are running all services, so need to specific
-        # parameters for all of them 
-        for service_list in service_map.values():
-            for service in service_list:
-                docker_compose_call += get_service_docker_params(service)
 
-        subprocess.call(docker_compose_call)
+    subprocess.call(docker_compose_call)
 
 
-def stop_container():
+def stop_containers():
     subprocess.call([DOCKER_COMPOSE, "down"])
 
 
-def restart_container(service):
+def restart_containers(service=None):
     if service:
         subprocess.call([DOCKER_COMPOSE, "restart", service])
     else:
@@ -101,12 +89,7 @@ def restart_container(service):
 
 
 def init_container(service):
-    docker_compose_run_command = [DOCKER_COMPOSE, "run"]
-
-    docker_compose_run_command += get_common_docker_params()
-    docker_compose_run_command += get_service_docker_params(service)
-    docker_compose_run_command.append(service)
-    docker_compose_run_command.append("INIT")
+    docker_compose_run_command = [DOCKER_COMPOSE, "run", service, "INIT"]
 
     subprocess.call(docker_compose_run_command)
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
