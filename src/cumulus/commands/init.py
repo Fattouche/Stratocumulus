@@ -96,6 +96,13 @@ class Init(Base):
             else:
                 update_unsupported(doc, service, working_dir)
 
+            service_env_vars = get_service_environment_vars(service)
+            if service_env_vars:
+                if 'environment' not in doc['services'][service]:
+                    doc['services'][service]['environment'] = {}
+
+                doc['services'][service]['environment'].update(service_env_vars)
+
         # Load yml if exists and add to doc
         if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
             compose_tree = yaml.load(open('docker-compose.yml', 'r'))
