@@ -1,13 +1,12 @@
-FROM python
+FROM python:3.6.5
 
-MAINTAINER Stratocumulus
-
-RUN pip install django
-
-# Put webapp code in /service
 RUN mkdir /service
-COPY . /service
 WORKDIR /service
 
-ENTRYPOINT [ "bash", "docker_entrypoint.sh" ]
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
+# Put webapp code in /service
+COPY . /service
+
+ENTRYPOINT ["bash", "cumulus-docker-entrypoint.sh"]
