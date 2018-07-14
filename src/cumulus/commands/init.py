@@ -43,11 +43,10 @@ class Init(Base):
 
     @staticmethod
     def update_supported(doc, service, working_dir):
-        # doc['services'][service]['image'] = '{docker_hub_repo}{image}'.format(
-        #     docker_hub_repo=DOCKER_HUB,
-        #     image=service
-        # )
-        doc['services'][service]['build'] = {'context': 'service_images/{}'.format(service)}
+        doc['services'][service]['image'] = '{docker_hub_repo}{image}'.format(
+            docker_hub_repo=DOCKER_HUB,
+            image=service
+        )
 
         doc['services'][service]['ports'] = ['{0}'.format(PORTS[service])]
         if service in WEB_APP or service in DATABASE:
