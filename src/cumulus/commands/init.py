@@ -27,16 +27,22 @@ class Init(Base):
         doc['x-project-name'] = project
         return project
 
-    def update_web_app(self, doc, service, working_dir):
-        self.update_supported(doc, service, working_dir)
 
-    def update_database(self, doc, service, working_dir):
-        self.update_supported(doc, service, working_dir)
+    @staticmethod
+    def update_web_app(self, doc, service, working_dir):
+        update_supported(doc, service, working_dir)
+
+
+    @staticmethod
+    def update_database(doc, service, working_dir):
+        update_supported(doc, service, working_dir)
         if service == 'mysql':
             doc['services'][service]['environment'] = {
                 'MYSQL_ALLOW_EMPTY_PASSWORD': 'yes'}
 
-    def update_supported(self, doc, service, working_dir):
+
+    @staticmethod
+    def update_supported(doc, service, working_dir):
         # doc['services'][service]['image'] = '{docker_hub_repo}{image}'.format(
         #     docker_hub_repo=DOCKER_HUB,
         #     image=service
@@ -52,9 +58,12 @@ class Init(Base):
             ]
             doc['services'][service]['command'] = COMMANDS[service]
 
-    def update_unsupported(self, doc, service, working_dir):
+
+    @staticmethod
+    def update_unsupported(doc, service, working_dir):
         print("Warning: service {0} is unsupported.".format(service))
         doc['services'][service]['image'] = service
+
 
     def init_docker_compose(self, working_dir, not_previously_created):
         doc = {
@@ -79,15 +88,15 @@ class Init(Base):
                 'container_name': name,
             }
             if service in WEB_APP:
-                self.update_web_app(doc, service, working_dir)
+                update_web_app(doc, service, working_dir)
             elif service in DATABASE:
-                self.update_database(doc, service, working_dir)
+                update_database(doc, service, working_dir)
             elif service in SUPPORTED:
-                self.update_supported(doc, service, working_dir)
+                update_supported(doc, service, working_dir)
             else:
-                self.update_unsupported(doc, service, working_dir)
+                update_unsupported(doc, service, working_dir)
 
-                # Load yml if exists and add to doc
+        # Load yml if exists and add to doc
         if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
             compose_tree = yaml.load(open('docker-compose.yml', 'r'))
 
