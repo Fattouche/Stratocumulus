@@ -34,19 +34,15 @@ import sys
 import prerequisite
 from collections import defaultdict
 
+from helpers import *
+
 START_SHELL = "./start_shell.sh"
 DOCKER_HUB = "strcum/"
 DOCKER_COMPOSE = "docker-compose"
-DOCKER = "docker"
 ENTRYPOINT = "./docker_entrypoint.sh"
 LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
-DATABASE = ["mysql"]
-WEB_APP = ["django", "rails"]
-SHELLS = ["bash", "zsh", "sh"]
-MISC = ["redis", "elasticsearch", "memcached"]
 NEED_INIT = WEB_APP+DATABASE
-SUPPORTED = WEB_APP+DATABASE+MISC
 PORTS = {"django": "41000", "rails": "41001", "redis": "6379", "mysql": "3306"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"]),
@@ -70,55 +66,6 @@ def main():
             return
 
     exit(__doc__)
-
-# Gets project name from docker-compose.yml
-# If it's not there, simply use the user's working directory as the project name
-def get_project_name():
-    compose_tree = {}
-    project = ''
-
-    if (os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
-        compose_tree = yaml.load(open('docker-compose.yml', 'r'))
-        if 'x-project-name' in compose_tree:
-            project = compose_tree['x-project-name']
-    
-    if not project:
-        project = os.getcwd().split(os.sep)[-1]
-
-    return project
-
-
-# Gets any docker-compose parameters that must be added for a particular service
-# Will be used for both init and start
-def get_service_docker_params(service):
-    service_docker_params = []
-
-    if service.lower() == 'django':
-        service_docker_params.append('-e')
-        service_docker_params.append('CUMULUS_PROJECT_NAME={}'.format(
-            get_project_name()
-        ))
-
-    return service_docker_params
-
-
-# Gets any docker-compose parameters that must be added for any service combination
-# Will be used for both init and start
-def get_common_docker_params():
-    common_params = []
-    service_map = parse_services()
-
-    common_params.append('-e')
-
-    cumulus_services_string = 'CUMULUS_SERVICES='
-    for service_list in service_map.values():
-        for service in service_list:
-            cumulus_services_string += service
-            cumulus_services_string += ','
-
-    common_params.append(cumulus_services_string)
-
-    return common_params
 
 
 def start_container(service):
@@ -188,74 +135,6 @@ def start_shell(service, shell):
                 [DOCKER_COMPOSE, "exec", service[0], START_SHELL, shell])
         else:
             print("Shell command defaults to web_app, however no such service was found")
-
-
-def parse_services():
-    service_map = defaultdict(list)
-    with open("docker-compose.yml", 'r') as stream:
-        try:
-            data = yaml.load(stream)
-            services = data['services']
-            for service in services:
-                if service in WEB_APP:
-                    service_map["WEB_APP"].append(service)
-                elif service in DATABASE:
-                    service_map["DATABASE"].append(service)
-                elif service in SUPPORTED:
-                    service_map["OTHER_SUPPORTED"].append(service)
-                else:
-                    service_map["UNSUPPORTED"].append(service)
-                
-
-        except yaml.YAMLError as exc:
-            print(exc)
-    return service_map
-
-
-def notify_active_port():
-    web_app_name = ""
-    addresses = []
-    with open("docker-compose.yml", 'r') as stream:
-        try:
-            data = yaml.load(stream)
-            services = data['services']
-            for service in services:
-                if service.split('_', 1)[-1] in WEB_APP:
-                    web_app_name = service
-                    raw = subprocess.check_output([DOCKER, "port", services
-                                                   [service]['container_name']])
-                    mappings = raw.decode("utf-8").split("\n")
-                    for mapping in mappings[:-1]:
-                        port = mapping.split(":")[1]
-                        addresses.append("localhost:{0}".format(port))
-            if(len(addresses) == 0):
-                if(web_app_name != ""):
-                    print("{0} app unreachable, no exposed ports".format(
-                        web_app_name))
-                else:
-                    print("No web app seen in project")
-            elif(len(addresses) == 1):
-                print("{0} app available at {1}".format(
-                    web_app_name, addresses[0]))
-            else:
-                print("{0} app available at one of {1}".format(web_app_name,
-                                                               ', '.join(addresses)))
-        except yaml.YAMLError as exc:
-            print(exc)
-
-
-def current_shell():
-    raw = os.getenv("SHELL")
-    if raw is None:
-        print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
-        shell = "sh"
-        return shell
-    shell = raw.split('/', 1)[-1]
-    if shell not in SHELLS:
-        print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
-        shell = "sh"
-    return shell
-
 
 if __name__ == "__main__":
     main()

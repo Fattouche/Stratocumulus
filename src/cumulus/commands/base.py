@@ -4,6 +4,7 @@ import os
 import sys
 sys.path.append('../cli.py')
 from cli import *
+from helpers import *
 
 
 class Base(object):
