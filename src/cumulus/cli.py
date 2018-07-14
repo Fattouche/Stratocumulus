@@ -88,44 +88,57 @@ def get_project_name():
     return project
 
 
-def get_service_start_params(service):
-    service_start_params = []
+# Gets any docker-compose parameters that must be added for a particular service
+# Will be used for both init and start
+def get_service_docker_params(service):
+    service_docker_params = []
 
     if service.lower() == 'django':
-        # Need to do this due to the bug in the MySQL docker container
-        # see https://github.com/docker-library/mysql/issues/448#issuecomment-403552073
-        # 
-        # Once this is fixed, the database name can instead be passed to MySQL
-        # during init (possibly into the docker-compose file, if we want to 
-        # expose it to the user), and written to the user's MySQL config file, which
-        # Django will then read from (as set up in Django's settings.py)
-        service_start_params.insert('-e')
-        base = Init
-        project_name = base.get_and_set_project(None, None)
-        service_start_params.insert('MYSQL_DATABASE={}_default'.format(
+        service_docker_params.append('-e')
+        service_docker_params.append('CUMULUS_PROJECT_NAME={}'.format(
             get_project_name()
         ))
+
+    return service_docker_params
+
+
+# Gets any docker-compose parameters that must be added for any service combination
+# Will be used for both init and start
+def get_common_docker_params():
+    common_params = []
+    service_map = parse_services()
+
+    common_params.append('-e')
+
+    cumulus_services_string = 'CUMULUS_SERVICES='
+    for service_list in service_map.values():
+        for service in service_list:
+            cumulus_services_string += service
+            cumulus_services_string += ','
+
+    common_params.append(cumulus_services_string)
+
+    return common_params
+
 
 def start_container(service):
     service_map = parse_services()
 
     docker_compose_call = [DOCKER_COMPOSE, "up", "-d"]
 
-    docker_compose_call.insert('-e')
-    cumulus_mode_string = 'CUMULUS_SERVICES='
-    for other_service in service_map.values():
-        cumulus_mode_string += other_service
-        cumulus_mode_string += ','
-    docker_compose_call.insert(cumulus_mode_string)
-
+    docker_compose_call += get_common_docker_params()
         
     if service:
-        docker_compose_call += get_service_start_params(service)
-        docker_compose_call.insert(service)
+        docker_compose_call += get_service_docker_params(service)
+        docker_compose_call.append(service)
         subprocess.call(docker_compose_call)
     else:
-        for service in service_map.values():
-            docker_compose_call += get_service_start_params(service)
+        # In this case we are running all services, so need to specific
+        # parameters for all of them 
+        for service_list in service_map.values():
+            for service in service_list:
+                docker_compose_call += get_service_docker_params(service)
+
         subprocess.call(docker_compose_call)
 
 
@@ -141,7 +154,14 @@ def restart_container(service):
 
 
 def init_container(service):
-    subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"])
+    docker_compose_run_command = [DOCKER_COMPOSE, "run"]
+
+    docker_compose_run_command += get_common_docker_params()
+    docker_compose_run_command += get_service_docker_params(service)
+    docker_compose_run_command.append(service)
+    docker_compose_run_command.append("INIT")
+
+    subprocess.call(docker_compose_run_command)
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
 
 
