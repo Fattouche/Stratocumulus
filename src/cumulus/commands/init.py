@@ -29,13 +29,13 @@ class Init(Base):
 
 
     @staticmethod
-    def update_web_app(self, doc, service, working_dir):
-        update_supported(doc, service, working_dir)
+    def update_web_app(doc, service, working_dir):
+        Init.update_supported(doc, service, working_dir)
 
 
     @staticmethod
     def update_database(doc, service, working_dir):
-        update_supported(doc, service, working_dir)
+        Init.update_supported(doc, service, working_dir)
         if service == 'mysql':
             doc['services'][service]['environment'] = {
                 'MYSQL_ALLOW_EMPTY_PASSWORD': 'yes'}
@@ -88,15 +88,15 @@ class Init(Base):
                 'container_name': name,
             }
             if service in WEB_APP:
-                update_web_app(doc, service, working_dir)
+                Init.update_web_app(doc, service, working_dir)
             elif service in DATABASE:
-                update_database(doc, service, working_dir)
+                Init.update_database(doc, service, working_dir)
             elif service in SUPPORTED:
-                update_supported(doc, service, working_dir)
+                Init.update_supported(doc, service, working_dir)
             else:
-                update_unsupported(doc, service, working_dir)
+                Init.update_unsupported(doc, service, working_dir)
 
-            service_env_vars = get_service_environment_vars(service)
+            service_env_vars = get_service_environment_vars(service, new_services)
             if service_env_vars:
                 if 'environment' not in doc['services'][service]:
                     doc['services'][service]['environment'] = {}
@@ -145,4 +145,4 @@ class Init(Base):
 
         for service in self.options['<service>']:
             if service not in self.already_started and service in NEED_INIT:
-                init_container(service)
+                init_container(service, self.options['<service>'])

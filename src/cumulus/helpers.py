@@ -1,4 +1,7 @@
 import os
+import yaml
+import subprocess
+from collections import defaultdict
 
 DOCKER = "docker"
 
@@ -7,7 +10,8 @@ SHELLS = ["bash", "zsh", "sh"]
 DATABASE = ["mysql"]
 WEB_APP = ["django", "rails"]
 OTHER_SUPPORTED = ["redis", "elasticsearch", "memcached"]
-SUPPORTED = WEB_APP + DATABASE + MISC
+SUPPORTED = WEB_APP + DATABASE + OTHER_SUPPORTED
+NEED_INIT = WEB_APP + DATABASE
 
 
 # Gets project name from docker-compose.yml
@@ -53,22 +57,29 @@ def parse_services():
 
 # Gets any docker-compose environment variables that must be defined for a 
 # particular service
-def get_service_environment_vars(service):
+def get_service_environment_vars(service, all_services):
     environment_vars = {}
 
     if service.lower() == 'django':
-        service_map = parse_services()
-
         environment_vars['CUMULUS_PROJECT_NAME'] = get_project_name()
 
-        databases = service_map['DATABASE']
         wait_for_string = ''
-        for database in databases:
-            wait_for_string += database
-            wait_for_string += ','
+        for other_service in all_services:
+            if other_service in DATABASE:
+                wait_for_string += other_service
+                wait_for_string += ','
 
         if wait_for_string:
-            environment_vars['CUMULUS_WAIT_FOR'] = wait_for_string[:-1]  # remove the last , from the string
+            environment_vars['CUMULUS_WAIT_FOR'] = wait_for_string[:-1]  # remove the last comma from the string
+    if service.lower() == 'mysql':
+        # Need to do this due to the bug in the MySQL docker container
+        # see https://github.com/docker-library/mysql/issues/448#issuecomment-403552073
+        # 
+        # Once this is fixed, the database name could instead be written to the
+        # user's MySQL config file during init
+        # (Although, having it in the docker-compose.yml like it is now will
+        # expose it to the user, which may be desirable)
+        environment_vars['MYSQL_DATABASE'] = '{}_default'.format(get_project_name())
 
     return environment_vars
 

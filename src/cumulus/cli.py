@@ -29,8 +29,6 @@ from inspect import getmembers, isclass
 from docopt import docopt
 import os
 import subprocess
-import yaml
-import sys
 import prerequisite
 from collections import defaultdict
 
@@ -42,7 +40,6 @@ DOCKER_COMPOSE = "docker-compose"
 ENTRYPOINT = "./docker_entrypoint.sh"
 LOGFILE = "docker-compose-log.out"
 VERSION = '1.0.0'
-NEED_INIT = WEB_APP+DATABASE
 PORTS = {"django": "41000", "rails": "41001", "redis": "6379", "mysql": "3306"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
             "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"]),
@@ -88,8 +85,12 @@ def restart_containers(service=None):
         subprocess.call([DOCKER_COMPOSE, "restart"])
 
 
-def init_container(service):
-    docker_compose_run_command = [DOCKER_COMPOSE, "run", service, "INIT"]
+def init_container(service, all_services):
+    docker_compose_run_command = [
+        DOCKER_COMPOSE, "run",
+        "-e", "CUMULUS_SERVICES={}".format(",".join(all_services)),
+        service, "INIT"
+    ]
 
     subprocess.call(docker_compose_run_command)
     subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])

@@ -2,9 +2,12 @@
 
 import os
 import sys
-sys.path.append('../cli.py')
-from cli import *
+
+# Add parent directory to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from helpers import *
+from cli import *
+
 
 
 class Base(object):

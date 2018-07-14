@@ -14,7 +14,7 @@ services:
     build:
       context: ./django
     command:
-      "python runserver 0.0.0.0:8080"
+      "python manage.py runserver 0.0.0.0:8080"
     volumes:
       -  "c:/Users/Cailan/Documents/SENG_499/cumulus_test_workspace:/cumulus"
     ports:

@@ -44,7 +44,7 @@ else
   cd "django/${CUMULUS_PROJECT_NAME}"
 
   # Wait for any services that we need to wait for
-  for service in ${CUMULUS_SERVICES//,/ }
+  for service in ${CUMULUS_WAIT_FOR//,/ }
   do
     if [ "${service}" == "mysql" ]
     then        
