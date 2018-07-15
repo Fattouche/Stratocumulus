@@ -1,7 +1,7 @@
 """
 cumulus
 Usage:
-  cumulus start [<service>...]
+  cumulus start [<service>...] [--latest]
   cumulus init (<service>...) [--clean] [--project-name=<project>]
   cumulus stop
   cumulus kill

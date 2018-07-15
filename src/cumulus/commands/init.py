@@ -24,7 +24,8 @@ class Init(Base):
         temp_name = None
         if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
             compose_tree = yaml.load(open('docker-compose.yml', 'r'))
-            temp_name = compose_tree['x-project-name']
+            if 'x-project-name' in compose_tree:
+                temp_name = compose_tree['x-project-name']
 
         if temp_name is not None:
             if(clean and self.options['--project-name'] is not None):
