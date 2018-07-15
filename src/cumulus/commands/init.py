@@ -8,6 +8,17 @@ import sys
 
 class Init(Base):
 
+    @staticmethod
+    def init_container(service, all_services):
+        docker_compose_run_command = [
+            DOCKER_COMPOSE, "run",
+            "-e", "CUMULUS_SERVICES={}".format(",".join(all_services)),
+            service, "INIT"
+        ]
+
+        subprocess.call(docker_compose_run_command)
+        subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
+
     def get_and_set_project(self, doc, clean):
         compose_tree = {}
         temp_name = None
@@ -27,11 +38,21 @@ class Init(Base):
         doc['x-project-name'] = project
         return project
 
+    @staticmethod
+    def get_image_name(service):
+        if service in HAS_CUMULUS_IMAGE:
+            return '{docker_hub_repo}{image}'.format(
+                docker_hub_repo=DOCKER_HUB,
+                image=service
+            )
+        elif service in SUPPORTED_BUT_NO_CUMULUS_IMAGE:
+            return SUPPORTED_BUT_NO_CUMULUS_IMAGE[service]
+        else:
+            return service
 
     @staticmethod
     def update_web_app(doc, service, working_dir):
         Init.update_supported(doc, service, working_dir)
-
 
     @staticmethod
     def update_database(doc, service, working_dir):
@@ -40,13 +61,9 @@ class Init(Base):
             doc['services'][service]['environment'] = {
                 'MYSQL_ALLOW_EMPTY_PASSWORD': 'yes'}
 
-
     @staticmethod
     def update_supported(doc, service, working_dir):
-        doc['services'][service]['image'] = '{docker_hub_repo}{image}'.format(
-            docker_hub_repo=DOCKER_HUB,
-            image=service
-        )
+        doc['services'][service]['image'] = Init.get_image_name(service)
 
         doc['services'][service]['ports'] = ['{0}'.format(PORTS[service])]
         if service in WEB_APP or service in DATABASE:
@@ -57,12 +74,10 @@ class Init(Base):
             ]
             doc['services'][service]['command'] = COMMANDS[service]
 
-
     @staticmethod
     def update_unsupported(doc, service, working_dir):
         print("Warning: service {0} is unsupported.".format(service))
         doc['services'][service]['image'] = service
-
 
     def init_docker_compose(self, working_dir, not_previously_created):
         doc = {
@@ -95,12 +110,14 @@ class Init(Base):
             else:
                 Init.update_unsupported(doc, service, working_dir)
 
-            service_env_vars = get_service_environment_vars(service, new_services)
+            service_env_vars = get_service_environment_vars(
+                service, new_services)
             if service_env_vars:
                 if 'environment' not in doc['services'][service]:
                     doc['services'][service]['environment'] = {}
 
-                doc['services'][service]['environment'].update(service_env_vars)
+                doc['services'][service]['environment'].update(
+                    service_env_vars)
 
         # Load yml if exists and add to doc
         if(os.path.exists('docker-compose.yml') and os.stat('docker-compose.yml').st_size != 0):
@@ -144,4 +161,4 @@ class Init(Base):
 
         for service in self.options['<service>']:
             if service not in self.already_started and service in NEED_INIT:
-                init_container(service, self.options['<service>'])
+                Init.init_container(service, self.options['<service>'])
