@@ -19,3 +19,5 @@ else
     exec "sh"
 fi
 
+cd /cumulus/django
+
