@@ -31,7 +31,6 @@ from inspect import getmembers, isclass
 from docopt import docopt
 import os
 import subprocess
-
 import prerequisite
 from collections import defaultdict
 
