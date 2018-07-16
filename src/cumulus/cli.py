@@ -94,9 +94,12 @@ def init_container(service):
         log_file.write(log_time_string)
     with open(LOGFILE, 'a') as log_file:
         print ('Initializing {0}...'.format(service))
-        subprocess.call([DOCKER_COMPOSE, "run", service, "INIT"], stdout=log_file, stderr=subprocess.STDOUT)
-        subprocess.call([DOCKER_COMPOSE, "rm", "-f", service], stdout=log_file, stderr=subprocess.STDOUT)
-        print ("{0} initialized! \nRun 'cumulus start <service>' to start the container".format(service))
+        result1 = subprocess.run([DOCKER_COMPOSE, "run", service, "INIT"], stdout=log_file, stderr=subprocess.STDOUT)
+        result2 = subprocess.run([DOCKER_COMPOSE, "rm", "-f", service], stdout=log_file, stderr=subprocess.STDOUT)
+        if not result1.returncode and not result2.returncode:
+            print ("{0} initialized! \nRun 'cumulus start <service>' to start the container".format(service))
+        else:
+            print ("Error initializing {0}. Check docker-compose-log.out for more details.".format(service))        
 
 
 def display_logs(service, follow):
