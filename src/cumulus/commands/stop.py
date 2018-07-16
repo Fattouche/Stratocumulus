@@ -5,5 +5,9 @@ from .base import *
 
 class Stop(Base):
 
+    @staticmethod
+    def stop_containers():
+        subprocess.call([DOCKER_COMPOSE, "stop"])
+
     def run(self):
-        stop_container()
+        Stop.stop_containers()
