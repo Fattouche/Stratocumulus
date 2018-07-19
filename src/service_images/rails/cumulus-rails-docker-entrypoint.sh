@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == INIT ]
+if [ "$1" == "INIT" ]
 then
     cd /cumulus
 
