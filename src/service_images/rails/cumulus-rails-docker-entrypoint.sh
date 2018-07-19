@@ -12,7 +12,7 @@ then
     if [ ! -d "rails/${CUMULUS_PROJECT_NAME}" ]
     then
         cd rails
-        rails new ${CUMULUS_PROJECT_NAME}# -d mysql
+        rails new ./${CUMULUS_PROJECT_NAME}# -d mysql
     fi
 
 else
