@@ -12,14 +12,10 @@ then
     if [ ! -d "rails/${CUMULUS_PROJECT_NAME}" ]
     then
         cd rails
-        rails new ./${CUMULUS_PROJECT_NAME}# -d mysql
+        rails new ${CUMULUS_PROJECT_NAME}
     fi
 
 else
     cd "/cumulus/rails/${CUMULUS_PROJECT_NAME}"
     exec "$@"
 fi
-
-
-
-# apt-get install mysql-server mysql-client
