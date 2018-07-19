@@ -14,6 +14,12 @@ then
         cd rails
         rails new ${CUMULUS_PROJECT_NAME}# -d mysql
     fi
+
+else
+    cd "/cumulus/rails/${CUMULUS_PROJECT_NAME}"
+    exec "$@"
 fi
 
-mysql-server mysql-client
+
+
+# apt-get install mysql-server mysql-client
