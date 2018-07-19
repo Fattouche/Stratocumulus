@@ -10,4 +10,6 @@ RUN bundle install
 
 COPY . /service
 
+RUN ["chmod", "+x", "cumulus-rails-docker-entrypoint.sh"]
+
 ENTRYPOINT ["bash", "cumulus-rails-docker-entrypoint.sh"]
