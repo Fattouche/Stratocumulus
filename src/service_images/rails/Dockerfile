@@ -1,6 +1,6 @@
 FROM ruby:2.5
 
-RUN apt-get update -qq && apt-get install -y build-essential tzdata libpq-dev nodejs
+RUN apt-get update -qq && apt-get install -y build-essential tzdata libpq-dev nodejs mysql-client libmysqlclient-dev
 RUN mkdir /service
 WORKDIR /service
 
@@ -10,6 +10,6 @@ RUN bundle install
 
 COPY . /service
 
-RUN ["chmod", "+x", "cumulus-rails-docker-entrypoint.sh"]
+RUN ["chmod", "+x", "cumulus-docker-entrypoint.sh"]
 
-ENTRYPOINT ["bash", "cumulus-rails-docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "cumulus-docker-entrypoint.sh"]
