@@ -1,6 +1,6 @@
 FROM ruby:2.5
 
-RUN apt-get update -qq && apt-get install -y build-essential tzdata
+RUN apt-get update -qq && apt-get install -y build-essential tzdata libpq-dev nodejs
 RUN mkdir /service
 WORKDIR /service
 
