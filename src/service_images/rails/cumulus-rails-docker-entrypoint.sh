@@ -13,11 +13,10 @@ then
     then
         cd rails
         rails new ${CUMULUS_PROJECT_NAME}
-        cd ${CUMULUS_PROJECT_NAME}
-        bundle install
     fi
 
 else
     cd "/cumulus/rails/${CUMULUS_PROJECT_NAME}"
+    bundle install
     exec "$@"
 fi
