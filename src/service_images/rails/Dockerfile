@@ -1,6 +1,6 @@
 FROM ruby:2.5
 
-RUN apt-get update -qq && apt-get install -y build-essential tzdata libpq-dev nodejs mysql-client libmysqlclient-dev
+RUN apt-get update -qq && apt-get install -y build-essential tzdata libpq-dev nodejs mysql-client default-libmysqlclient-dev
 RUN mkdir /service
 WORKDIR /service
 
