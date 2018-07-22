@@ -27,14 +27,35 @@ then
         cd rails
         containsElement "mysql" ${CUMULUS_PROJECT_NAME}
         if [ $? ]
+        then
             rails new ${CUMULUS_PROJECT_NAME} -d mysql
         else
             rails new ${CUMULUS_PROJECT_NAME}
         fi
     fi
 
+    for service in ${CUMULUS_SERVICES//,/ }
+    do
+        # Modify Rails database config file to connect to MySQL container
+        if [ "${service}" == "mysql" ]
+        then
+
+            MYSQL_DATABASE="${CUMULUS_PROJECT_NAME}_default"
+            ruby /service/modify-rails-database-config.ru ${MYSQL_DATABASE}
+        fi
+    done
+
 else
     cd "/cumulus/rails/${CUMULUS_PROJECT_NAME}"
     bundle install
+
+    for service in ${CUMULUS_WAIT_FOR//,/ }
+    do
+        if ["${service}" == "mysql" ]
+        then
+            bash /service/wait-for-it.sh mysql:3306 --timeout=300
+        fi
+    done
+    
     exec "$@"
 fi
