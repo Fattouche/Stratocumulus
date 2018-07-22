@@ -63,7 +63,7 @@ def parse_services():
 def get_service_environment_vars(service, all_services):
     environment_vars = {}
 
-    if service.lower() == 'django':
+    if service.lower() == 'django' or service.lower() == 'rails':
         environment_vars['CUMULUS_PROJECT_NAME'] = get_project_name()
 
         wait_for_string = ''
@@ -85,9 +85,6 @@ def get_service_environment_vars(service, all_services):
         # expose it to the user, which may be desirable)
         environment_vars['MYSQL_DATABASE'] = '{}_default'.format(
             get_project_name())
-    
-    if service.lower() == 'rails':
-        environment_vars['CUMULUS_PROJECT_NAME'] = get_project_name()
 
     return environment_vars
 

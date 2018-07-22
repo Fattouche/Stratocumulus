@@ -51,11 +51,11 @@ else
 
     for service in ${CUMULUS_WAIT_FOR//,/ }
     do
-        if ["${service}" == "mysql" ]
+        if [ "${service}" == "mysql" ]
         then
             bash /service/wait-for-it.sh mysql:3306 --timeout=300
         fi
     done
-    
+
     exec "$@"
 fi
