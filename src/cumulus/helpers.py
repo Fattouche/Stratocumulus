@@ -96,7 +96,7 @@ def current_shell():
         print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
         shell = "sh"
         return shell
-    shell = raw.split('/', 1)[-1]
+    shell = raw.split('/')[-1]
     if shell not in SHELLS:
         print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
         shell = "sh"

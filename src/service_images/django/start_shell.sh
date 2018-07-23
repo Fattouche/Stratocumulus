@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /cumulus/django
 
 if [ "$1" == "zsh" ]
 then 
@@ -19,5 +20,5 @@ else
     exec "sh"
 fi
 
-cd /cumulus/django
+
 
