@@ -8,7 +8,8 @@ class Logs(Base):
     @staticmethod
     def display_logs(service, follow):
         if service:
-            command = [DOCKER_COMPOSE, "logs", service]
+            command = [DOCKER_COMPOSE, "logs"]
+            command.extend(service)
         else:
             command = [DOCKER_COMPOSE, "logs"]
         if follow:

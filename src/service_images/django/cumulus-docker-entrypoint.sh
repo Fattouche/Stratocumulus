@@ -37,6 +37,17 @@ then
         --mysql-config-path /cumulus/mysql/my.cnf \
         --mysql-db ${MYSQL_DATABASE}
     fi
+
+    if [ "${service}" == "memcached" ]
+    then
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip install python-memcached
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --memcached
+    
+    fi
+
   done
 
 else
@@ -51,6 +62,12 @@ else
       # Somehow this works with port 3306, even if the port on mysql on the
       # host is not 3306
       bash /service/wait-for-it.sh mysql:3306 --timeout=300
+    fi
+
+    if [ "${service}" == "memcached" ]
+    then        
+      pip install python-memcached
+      bash /service/wait-for-it.sh memcached:11211 --timeout=300
     fi
   done
 
