@@ -1,15 +1,4 @@
 #!/bin/bash
-
-containsElement() {
-    local e match="$1"
-    shift
-    for e
-    do 
-        [[ "$e" == "$match" ]] && return 0
-    done
-    return 1
-}
-
 if [ "$1" == "INIT" ]
 then
     # User's cumulus config and code is mounted into /cumulus
