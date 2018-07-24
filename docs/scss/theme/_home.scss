@@ -210,7 +210,8 @@
 
 .home-about-left{
 	img{
-		width:100%;
+		width:60%;
+		border-radius: 50%
 	}
 }
 
@@ -218,8 +219,8 @@
 	padding-right: 20%;
 	padding-left: 4%;
 	@media(max-width: 1366px){
-		padding-left:15px;
-		padding-right:15px;
+		padding-left:5px;
+		padding-right:5px;
 	}
 	h1{
 		padding:20px 0;	
