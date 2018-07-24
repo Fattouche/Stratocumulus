@@ -25,13 +25,16 @@ then
     if [ ! -d "rails/${CUMULUS_PROJECT_NAME}" ]
     then
         cd rails
-        containsElement "mysql" ${CUMULUS_PROJECT_NAME}
-        if [ $? ]
-        then
-            rails new ${CUMULUS_PROJECT_NAME} -d mysql
-        else
-            rails new ${CUMULUS_PROJECT_NAME}
-        fi
+        RAILS_INIT_COMMAND="rails new ${CUMULUS_PROJECT_NAME}"
+
+        for service in ${CUMULUS_SERVICE}//,/ }
+        do
+            if [ "${service}" == "mysql" ]
+            then
+                RAILS_INIT_COMMAND="rails new ${CUMULUS_PROJECT_NAME} -d mysql"
+            fi
+        done
+        exec ${RAILS_INIT_COMMAND}
     fi
 
     for service in ${CUMULUS_SERVICES//,/ }
