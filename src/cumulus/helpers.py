@@ -2,6 +2,7 @@ import os
 import yaml
 import subprocess
 from collections import defaultdict
+from datetime import datetime
 
 DOCKER = "docker"
 
@@ -13,6 +14,7 @@ OTHER_SUPPORTED = ["redis", "elasticsearch", "memcached"]
 SUPPORTED = WEB_APP + DATABASE + OTHER_SUPPORTED
 NEED_INIT = WEB_APP + DATABASE
 HAS_CUMULUS_IMAGE = ["mysql", "django"]
+LOGFILE = "docker-compose-log.out"
 SUPPORTED_BUT_NO_CUMULUS_IMAGE = {
     "redis": "redis", "elasticsearch": "docker.elastic.co/elasticsearch/elasticsearch:6.3.1", "memcached": "memcached"}
 
@@ -133,3 +135,13 @@ def notify_active_port():
                                                                ', '.join(addresses)))
         except yaml.YAMLError as exc:
             print(exc)
+
+# Clean garbage (docker ansi color logs) out of log file
+def clean_logs():
+    with open(LOGFILE, 'r+') as log_file:
+        lines = log_file.readlines()
+        log_file.seek(0)
+        for line in lines:
+            if '\x1b' not in line:
+                log_file.write(line)
+        log_file.truncate()

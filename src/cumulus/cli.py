@@ -49,7 +49,6 @@ COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"])
             "mysql": "mysqld"}
 DOCKER_COMPOSE_VERSION = '3.6'
 
-
 def main():
     """Main CLI entrypoint."""
     import commands
@@ -63,8 +62,8 @@ def main():
                        for command in commands if command[0] != 'Base'][0]
             command = command(options)
             command.run()
+            clean_logs()
             return
-
     exit(__doc__)
 
 

@@ -15,9 +15,17 @@ class Init(Base):
             "-e", "CUMULUS_SERVICES={}".format(",".join(all_services)),
             service, "INIT"
         ]
-
-        subprocess.call(docker_compose_run_command)
-        subprocess.call([DOCKER_COMPOSE, "rm", "-f", service])
+        with open(LOGFILE, 'a+') as log_file:
+            log_time_string = '\n\n{0}\n'.format(datetime.now().strftime('%m-%d-%Y %H:%M:%S'))
+            log_file.write(log_time_string)
+        with open(LOGFILE, 'a') as log_file:
+            print ('Initializing {0}...'.format(service))
+            return_code1 = subprocess.call(docker_compose_run_command, stdout=log_file, stderr=subprocess.STDOUT)
+            return_code2 = subprocess.call([DOCKER_COMPOSE, "rm", "-f", service], stdout=log_file, stderr=subprocess.STDOUT)
+            if not return_code1 and not return_code2:
+                print ("{0} initialized! \nRun 'cumulus start <service>' to start the container".format(service))
+            else:
+                print ("Error initializing {0}. Check docker-compose-log.out for more details.".format(service))             
 
     def get_and_set_project(self, doc, clean):
         compose_tree = {}
