@@ -147,11 +147,11 @@
 				<tbody>
 					<tr>
 						<td>cumulus init</td>
-						<td>Initialize a Stratocumulus Project</td>
+						<td>Initialize a Stratocumulus project</td>
 					</tr>
 					<tr>
 						<td>cumulus start</td>
-						<td>Start the initialized Stratocumulus Project</td>
+						<td>Start the initialized Stratocumulus project</td>
 					</tr>
 					<tr>
 						<td>cumulus stop</td>
@@ -167,7 +167,7 @@
 					</tr>
 					<tr>
 						<td>cumulus restart</td>
-						<td>Restarts a specifica service or entire project. This is the same as running cumulus stop and cumulus start</td>
+						<td>Restarts a specifica service or entire project</td>
 					</tr>
 					<tr>
 						<td>cumulus logs</td>
@@ -253,9 +253,9 @@
 			</div>
 			<br/>
 			<div>
-				If this command is successfull a docker-compose.yml file will be created, configuring the specified services.
+				If this command is successfull a docker-compose.yml file will be created, configuring the specified services
 				<br/> Furthermore, any configurable service will have a folder created for it in the directory from which the command was
-				run.
+				run
 				<br/> This includes services such as Django and MySql
 
 			</div>
@@ -281,7 +281,7 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus start (&lt;service&gt;..)
+				cumulus start [&lt;service&gt;..]
 			</div>
 			<br/>
 
@@ -326,11 +326,12 @@
 			</div>
 			<br/>
 			<div>
-				If this command is successfull all initialized services will be running.
-				<br/> A port will be in the output specifying where a webapp is running.
-				<br/> This command can be run with or without explicit services in the command.
-				<br/> With no services specified all will be started, otherwise only those requested.
-				<br/> Note: &lt;port&gt; will change everytime depending on what ports are available on your machine.
+				If this command is successfull all initialized services will be running
+				<br/> A port will be in the output specifying where a webapp is running
+				<br/> This command can be run with or without explicit services in the command
+				<br/> With no services specified all will be started, otherwise only those requested
+				<br/> Services will run with the name &lt;project name&gt;_&lt;service name&gt;
+				<br/> Note: &lt;port&gt; will change everytime depending on what ports are available on your machine
 				<br/>
 
 
@@ -348,7 +349,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> DESCRIPTION GOES HERE </p>
+				<p>Safely stops any running Strocumulus services once they are in a state to do so</p>
 
 			</div>
 			<br/>
@@ -357,32 +358,9 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus USAGE GOES HERE
+				cumulus stop
 			</div>
 			<br/>
-
-			<div class="raw d-flex justify-content-left">
-				<h3 class="mb-3">Options</h3>
-			</div>
-
-			<!-- OPTIONS -->
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							FLAG
-						</td>
-						<td>WHAT IT DOES</td>
-					</tr>
-				</tbody>
-			</table>
-
 
 			<div class="raw d-flex justify-content-left">
 				<h3>Example</h3>
@@ -390,18 +368,18 @@
 			<br/>
 			<div>Command:</div>
 			<div class="card-body bg-light ">
-				cumulus COMMAND GOES HERE</div>
-			<!-- <div></div> -->
+				cumulus stop</div>
+
 			<br/>
 			<div>Output:</div>
 			<div class="card-body bg-light">
-				OUTPUT GOES HERE
+				Stopping webapp_django ... done
+				<br/> Stopping webapp_mysql ... done
 			</div>
 			<br/>
 			<div>
-				POST
-				<br/> Conditions
-				<br/> And notes go here
+				If this command is succesful. All services will be safely stopped
+				<br/> After this command, any running webapp will not be accesable at its port
 			</div>
 		</div>
 	</section>
@@ -416,7 +394,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> DESCRIPTION GOES HERE </p>
+				<p>Much like stop, this command will forcefully stop all services regardless their state</p>
 
 			</div>
 			<br/>
@@ -425,7 +403,7 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus USAGE GOES HERE
+				cumulus kill
 			</div>
 			<br/>
 
@@ -433,43 +411,25 @@
 				<h3 class="mb-3">Options</h3>
 			</div>
 
-			<!-- OPTIONS -->
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							FLAG
-						</td>
-						<td>WHAT IT DOES</td>
-					</tr>
-				</tbody>
-			</table>
-
-
 			<div class="raw d-flex justify-content-left">
 				<h3>Example</h3>
 			</div>
 			<br/>
 			<div>Command:</div>
 			<div class="card-body bg-light ">
-				cumulus COMMAND GOES HERE</div>
-			<!-- <div></div> -->
+				cumulus kill</div>
+
 			<br/>
 			<div>Output:</div>
 			<div class="card-body bg-light">
-				OUTPUT GOES HERE
+				Removing webapp_django ... done
+				<br/> Removing webapp_mysql ... done
+				<br/> Removing network webapp_default
 			</div>
 			<br/>
 			<div>
-				POST
-				<br/> Conditions
-				<br/> And notes go here
+				This command will kill all Stratocumulus services
+				<br/>Similarly to stop, after this command, any running webapp will not be accesable at its port
 			</div>
 		</div>
 	</section>
@@ -484,7 +444,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> DESCRIPTION GOES HERE </p>
+				<p>Restarts any specified service, or all if none specified</p>
 
 			</div>
 			<br/>
@@ -493,31 +453,9 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus USAGE GOES HERE
+				cumulus restart [&lt;service&gt;..]
 			</div>
 			<br/>
-
-			<div class="raw d-flex justify-content-left">
-				<h3 class="mb-3">Options</h3>
-			</div>
-
-			<!-- OPTIONS -->
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							FLAG
-						</td>
-						<td>WHAT IT DOES</td>
-					</tr>
-				</tbody>
-			</table>
 
 
 			<div class="raw d-flex justify-content-left">
@@ -526,18 +464,18 @@
 			<br/>
 			<div>Command:</div>
 			<div class="card-body bg-light ">
-				cumulus COMMAND GOES HERE</div>
-			<!-- <div></div> -->
+				cumulus restart</div>
 			<br/>
 			<div>Output:</div>
 			<div class="card-body bg-light">
-				OUTPUT GOES HERE
+				Restarting webapp_mysql ... done
+				<br/> Restarting webapp_django ... done
+
 			</div>
 			<br/>
 			<div>
-				POST
-				<br/> Conditions
-				<br/> And notes go here
+				If this command is succesfull, the services specified will be restarted
+				<br/> If no services were specified, then all services will be restarted
 			</div>
 		</div>
 	</section>
