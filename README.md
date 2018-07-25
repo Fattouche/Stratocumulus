@@ -1,15 +1,12 @@
 # Stratocumulus
 
-Some notes:
-- In this repo we'll have a folder for each service, which defines the dockerfile for that
-service. The images created by these dockerfiles will be uploaded to a
-Stratocumulus docker repository, and then the stratocumulus executable will
-generate docker-compose files that pull images from that repository
-- The docker-compose file will also run containers with some sort of "MODE"
-environment variable, which can be passed as "init", "start" or other options.
-The value of this variable will be available to the startup scripts that the
-containers use as their entrypoint, and the scripts will behave differently
-depending on what mode is passed in
-- The docker-compose files will run the containers with the user's config directory
-mounted into `/cumulus` (with read and write access). This will allow the container
-to create new config files on `init`, and use existing config files on `start`
+<img src="docs/img/logo.png" height="100">
+
+Stratocumulus is a command line interface that spoils developers. Our goal is to provide amazing tools
+that increase development speeds by handling service connection and infrastructure for you. In addition,
+Stratocumulus allows its developers to quickly initialize new projects with their favorite services in one simple command.
+
+
+Please see the [official Stratocumulus page](http://alexfattouche.com/Stratocumulus) for information and docs.
+
+<img src="docs/img/giphy.gif">

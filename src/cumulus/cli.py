@@ -5,7 +5,7 @@ Usage:
   cumulus init (<service>...) [--clean] [--project-name=<project>]
   cumulus stop
   cumulus kill
-  cumulus restart [<service>...] [--clean]
+  cumulus restart [<service>...]
   cumulus logs [<service>] [-f]
   cumulus shell [<service>] [--shell=<shell>]
   cumulus -h | --help
