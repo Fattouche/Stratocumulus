@@ -82,12 +82,12 @@
 	</section>
 	<!-- End banner Area -->
 
-	<!-- Start products Area -->
-	<section class="products-area product-page section-gap">
+	<!-- Start products Area NOT SURE WHAT THIS CRAP IS-->
+	<section class="products-area product-page docs-gap">
 		<div class="container">
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-12 pb-40 header-text text-center">
-					<h1 class="pb-10">Available Commands and Usage</h1>
+					<!-- <h1 class="pb-10">Available Commands and Usage</h1> -->
 					<!-- <p> -->
 					<!-- Who are in extremely love with eco friendly system. -->
 					<!-- </p> -->
@@ -100,17 +100,19 @@
 
 
 	<!-- Start Cumulus Area -->
-	<section class="init-area product-page section-gap">
+	<section class="init-area product-page docs-gap">
 		<div class="container">
-			<div class="raw text-left font-weight-bold mb-3 pb-40">
+			<div class="raw text-left font-weight-bold">
 				<h2>Cumulus</h2>
 			</div>
-			<div class="raw text-left  mb-3 pb-40">
-				<h2 class="font-weight-bold mb-3">Description</h2>
+			<br/>
+			<div class="raw text-left">
+				<h3 class=" mb-3">Description</h3>
 				<p>This is the base command for the Stratocumulus CLI</p>
 			</div>
+			<br/>
 			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Options</h2>
+				<h3>Options</h3>
 			</div>
 			<table class="table table-striped">
 				<thead>
@@ -130,9 +132,9 @@
 					</tr>
 				</tbody>
 			</table>
-
-			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Child Commands</h2>
+			<br/>
+			<div class="raw d-flex justify-content-left">
+				<h3>Child Commands</h3>
 			</div>
 			<!-- OPTIONS -->
 			<table class="table table-striped">
@@ -179,30 +181,33 @@
 	<!-- End Cumulus Area -->
 
 	<!-- Start Init Area -->
-	<section class="init-area product-page section-gap">
+	<section class="init-area product-page docs-gap">
 		<div class="container">
-			<div class="raw text-left font-weight-bold mb-3 pb-40">
+			<div class="raw text-left font-weight-bold ">
 				<h2>Cumulus Init</h2>
 			</div>
-			<div class="raw text-left  mb-3 pb-40">
-				<h2 class="font-weight-bold mb-3">Description</h2>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
 				<p> Initialize all specified services </p>
 
 			</div>
+			<br/>
 			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Usage</h2>
+				<h3>Usage</h3>
 			</div>
 
-			<div class="raw d-flex justify-content-center pb-40">
-				<div class="col-md header-text text-center card bg-light mb-3">
-					<div class="card-body">
-						cumulus init [service] [OPTIONS]
-					</div>
-				</div>
+			<!-- <div class="raw d-flex justify-content-center pb-40"> -->
+			<!-- <div class="col-md header-text text-center card bg-light mb-3"> -->
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus init [service] [OPTIONS]
 			</div>
-			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Options</h2>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
 			</div>
+
 			<!-- OPTIONS -->
 			<table class="table table-striped">
 				<thead>
@@ -229,53 +234,66 @@
 			</table>
 
 
-			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Example</h2>
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
 			</div>
-			<div>Running the following command inside a webapp directory:</div>
+			<br/>
+			<div>Command:</div>
 			<div class="card-body bg-light ">
 				cumulus init django mysql</div>
-			<div class="mb-10">Outputs</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
 			<div class="card-body bg-light">
-				<br/>Creating network "webapp_default" with the default driver
+				Creating network "webapp_default" with the default driver
 				<br/>Going to remove webapp_django_run_1
 				<br/>Removing webapp_django_run_1 ... done
 				<br/>Going to remove webapp_mysql_run_1
 				<br/>Removing webapp_mysql_run_1 ... done
 			</div>
+			<br/>
+			<div>
+				If this command is successfull a docker-compose.yml file will be created, configuring the specified services.
+				<br/> Furthermore, any configurable service will have a folder created for it in the directory from which the command was
+				run.
+				<br/> This includes services such as Django and MySql
+
+			</div>
 		</div>
 	</section>
 	<!-- End Init Area -->
+
 	<!-- Start Start Area -->
-	<section class="start-area product-page section-gap mb-3 pb-40">
+	<section class="start-area product-page docs-gap">
 		<div class="container">
-			<div class="raw text-left font-weight-bold mb-3 pb-40">
+			<div class="raw text-left font-weight-bold ">
 				<h2>Cumulus Start</h2>
 			</div>
-			<div class="raw text-left  mb-3 pb-40">
-				<h2 class="font-weight-bold mb-3">Description</h2>
-				<p> Start all of the initialized Services </p>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> Start all the initialized services </p>
+
 			</div>
+			<br/>
 			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Usage</h2>
+				<h3>Usage</h3>
 			</div>
 
-			<div class="raw d-flex justify-content-center pb-40">
-				<div class="col-md header-text text-center card bg-light mb-3">
-					<div class="card-body">
-						cumulus start
-					</div>
-				</div>
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus start (&lt;service&gt;..)
 			</div>
-			<div class="raw d-flex justify-content-left pb-10">
-				<h2 class="font-weight-bold mb-3">Options</h2>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
 			</div>
+
 			<!-- OPTIONS -->
 			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th scope="col">Name</th>
-						<th scope="col">Default</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
@@ -284,23 +302,382 @@
 						<td>
 							--latest
 						</td>
-						<td></td>
 						<td>This option will pull the latest image from the Stratocumulus docker hub</td>
 					</tr>
 				</tbody>
 			</table>
+
+
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus start</div>
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				Creating webapp_mysql ... done
+				<br/> Creating webapp_django ... done
+				<br/> django app available at localhost:&lt;port&gt;
+				<br\>
+					logs available using `cumulus logs [&lt;service&gt;] [-f]`
+			</div>
+			<br/>
+			<div>
+				If this command is successfull all initialized services will be running.
+				<br/> A port will be in the output specifying where a webapp is running.
+				<br/> This command can be run with or without explicit services in the command.
+				<br/> With no services specified all will be started, otherwise only those requested.
+				<br/> Note: &lt;port&gt; will change everytime depending on what ports are available on your machine.
+				<br/>
+
+
+			</div>
 		</div>
 	</section>
+	<!-- End Start Area -->
+
+	<!-- Start Stop Area -->
+	<section class="start-area product-page docs-gap">
+		<div class="container">
+			<div class="raw text-left font-weight-bold ">
+				<h2>Cumulus Stop</h2>
+			</div>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> DESCRIPTION GOES HERE </p>
+
+			</div>
+			<br/>
+			<div class="raw d-flex justify-content-left pb-10">
+				<h3>Usage</h3>
+			</div>
+
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus USAGE GOES HERE
+			</div>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							FLAG
+						</td>
+						<td>WHAT IT DOES</td>
+					</tr>
+				</tbody>
+			</table>
 
 
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus COMMAND GOES HERE</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				OUTPUT GOES HERE
+			</div>
+			<br/>
+			<div>
+				POST
+				<br/> Conditions
+				<br/> And notes go here
+			</div>
+		</div>
+	</section>
+	<!-- End Stop Area -->
+
+	<!-- Start Kill Area -->
+	<section class="start-area product-page docs-gap">
+		<div class="container">
+			<div class="raw text-left font-weight-bold ">
+				<h2>Cumulus Kill</h2>
+			</div>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> DESCRIPTION GOES HERE </p>
+
+			</div>
+			<br/>
+			<div class="raw d-flex justify-content-left pb-10">
+				<h3>Usage</h3>
+			</div>
+
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus USAGE GOES HERE
+			</div>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							FLAG
+						</td>
+						<td>WHAT IT DOES</td>
+					</tr>
+				</tbody>
+			</table>
 
 
-	<!-- <div class="row d-flex justify-content-center">
-				<div class="col-md-12 pb-40 header-text text-center">
-					<h3 class="text-center">Init</h3>
-				</div>
-			</div> -->
-	<!-- <span class="border border-secondary"></span> -->
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus COMMAND GOES HERE</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				OUTPUT GOES HERE
+			</div>
+			<br/>
+			<div>
+				POST
+				<br/> Conditions
+				<br/> And notes go here
+			</div>
+		</div>
+	</section>
+	<!-- End kill Area -->
+
+	<!-- Start Restart Area -->
+	<section class="start-area product-page docs-gap">
+		<div class="container">
+			<div class="raw text-left font-weight-bold ">
+				<h2>Cumulus Restart</h2>
+			</div>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> DESCRIPTION GOES HERE </p>
+
+			</div>
+			<br/>
+			<div class="raw d-flex justify-content-left pb-10">
+				<h3>Usage</h3>
+			</div>
+
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus USAGE GOES HERE
+			</div>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							FLAG
+						</td>
+						<td>WHAT IT DOES</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus COMMAND GOES HERE</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				OUTPUT GOES HERE
+			</div>
+			<br/>
+			<div>
+				POST
+				<br/> Conditions
+				<br/> And notes go here
+			</div>
+		</div>
+	</section>
+	<!-- End Restart Area -->
+
+	<!-- Start Shell Area -->
+	<section class="start-area product-page docs-gap">
+		<div class="container">
+			<div class="raw text-left font-weight-bold ">
+				<h2>Cumulus Shell</h2>
+			</div>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> DESCRIPTION GOES HERE </p>
+
+			</div>
+			<br/>
+			<div class="raw d-flex justify-content-left pb-10">
+				<h3>Usage</h3>
+			</div>
+
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus USAGE GOES HERE
+			</div>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							FLAG
+						</td>
+						<td>WHAT IT DOES</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus COMMAND GOES HERE</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				OUTPUT GOES HERE
+			</div>
+			<br/>
+			<div>
+				POST
+				<br/> Conditions
+				<br/> And notes go here
+			</div>
+		</div>
+	</section>
+	<!-- End Shell Area -->
+
+	<!-- Start Logs Area -->
+	<section class="start-area product-page docs-gap">
+		<div class="container">
+			<div class="raw text-left font-weight-bold ">
+				<h2>Cumulus Logs</h2>
+			</div>
+			<div class="raw text-left">
+				<br/>
+				<h3>Description</h3>
+				<p> DESCRIPTION GOES HERE </p>
+
+			</div>
+			<br/>
+			<div class="raw d-flex justify-content-left pb-10">
+				<h3>Usage</h3>
+			</div>
+
+			<div class=" col-md header-text text-center card bg-light card-body">
+				cumulus USAGE GOES HERE
+			</div>
+			<br/>
+
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							FLAG
+						</td>
+						<td>WHAT IT DOES</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="raw d-flex justify-content-left">
+				<h3>Example</h3>
+			</div>
+			<br/>
+			<div>Command:</div>
+			<div class="card-body bg-light ">
+				cumulus COMMAND GOES HERE</div>
+			<!-- <div></div> -->
+			<br/>
+			<div>Output:</div>
+			<div class="card-body bg-light">
+				OUTPUT GOES HERE
+			</div>
+			<br/>
+			<div>
+				POST
+				<br/> Conditions
+				<br/> And notes go here
+			</div>
+		</div>
+	</section>
+	<!-- End Logs Area -->
 
 	<!-- Start brand Area -->
 	<section class="brand-area pb-120">
