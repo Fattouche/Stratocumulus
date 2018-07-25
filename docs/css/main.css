@@ -2237,6 +2237,10 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding: 60px 0;
 }
 
+.docs-gap{
+  padding: 20px 0;
+}
+
 .section-title {
   padding-bottom: 30px;
 }

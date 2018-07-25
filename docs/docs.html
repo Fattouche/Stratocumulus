@@ -82,23 +82,6 @@
 	</section>
 	<!-- End banner Area -->
 
-	<!-- Start products Area NOT SURE WHAT THIS CRAP IS-->
-	<section class="products-area product-page docs-gap">
-		<div class="container">
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-12 pb-40 header-text text-center">
-					<!-- <h1 class="pb-10">Available Commands and Usage</h1> -->
-					<!-- <p> -->
-					<!-- Who are in extremely love with eco friendly system. -->
-					<!-- </p> -->
-				</div>
-			</div>
-
-		</div>
-	</section>
-	<!-- End products Area -->
-
-
 	<!-- Start Cumulus Area -->
 	<section class="init-area product-page docs-gap">
 		<div class="container">
@@ -490,7 +473,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> DESCRIPTION GOES HERE </p>
+				<p>Get a shell into a service.</p>
 
 			</div>
 			<br/>
@@ -499,7 +482,7 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus USAGE GOES HERE
+				cumulus shell [&lt;service&gt;] [--shell=&lt;shell&gt;]
 			</div>
 			<br/>
 
@@ -512,18 +495,28 @@
 				<thead>
 					<tr>
 						<th scope="col">Name</th>
+						<th scope="col">Default</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>
-							FLAG
+							service
 						</td>
-						<td>WHAT IT DOES</td>
+						<td>Defaults to web app</td>
+						<td>Service to shell into</td>
+					</tr>
+					<tr>
+						<td>
+							--shell
+						</td>
+						<td>The shell specified in $SHELL environment variable</td>
+						<td>The shell that will be used [bash, zsh, sh]</td>
 					</tr>
 				</tbody>
 			</table>
+
 
 
 			<div class="raw d-flex justify-content-left">
@@ -532,18 +525,16 @@
 			<br/>
 			<div>Command:</div>
 			<div class="card-body bg-light ">
-				cumulus COMMAND GOES HERE</div>
+				cumulus shell --shell=bash</div>
 			<!-- <div></div> -->
 			<br/>
 			<div>Output:</div>
 			<div class="card-body bg-light">
-				OUTPUT GOES HERE
+				root@13ec7332f1ab:/cumulus/django#
 			</div>
 			<br/>
 			<div>
-				POST
-				<br/> Conditions
-				<br/> And notes go here
+				You will now have a shell into your web app container.
 			</div>
 		</div>
 	</section>
@@ -558,7 +549,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> DESCRIPTION GOES HERE </p>
+				<p>Display service logs</p>
 
 			</div>
 			<br/>
@@ -567,7 +558,7 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus USAGE GOES HERE
+				cumulus logs [&lt;service&gt;] [-f]
 			</div>
 			<br/>
 
@@ -580,15 +571,24 @@
 				<thead>
 					<tr>
 						<th scope="col">Name</th>
+						<th scope="col">Default</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>
-							FLAG
+							service
 						</td>
-						<td>WHAT IT DOES</td>
+						<td>Defaults to web app</td>
+						<td>Service to show logs for</td>
+					</tr>
+					<tr>
+						<td>
+							-f
+						</td>
+						<td></td>
+						<td>Tail the logs</td>
 					</tr>
 				</tbody>
 			</table>
@@ -600,158 +600,19 @@
 			<br/>
 			<div>Command:</div>
 			<div class="card-body bg-light ">
-				cumulus COMMAND GOES HERE</div>
+				cumulus logs django -f</div>
 			<!-- <div></div> -->
 			<br/>
 			<div>Output:</div>
 			<div class="card-body bg-light">
-				OUTPUT GOES HERE
+				Attaching to src_django
 			</div>
 			<br/>
-			<div>
-				POST
-				<br/> Conditions
-				<br/> And notes go here
-			</div>
 		</div>
 	</section>
 	<!-- End Logs Area -->
-
-	<!-- Start brand Area -->
-	<section class="brand-area pb-120">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col single-brand">
-					<img class="img-fluid" src="img/l1.png" alt="">
-				</div>
-				<div class="col single-brand">
-					<img class="img-fluid" src="img/l2.png" alt="">
-				</div>
-				<div class="col single-brand">
-					<img class="img-fluid" src="img/l3.png" alt="">
-				</div>
-				<div class="col single-brand">
-					<img class="img-fluid" src="img/l4.png" alt="">
-				</div>
-				<div class="col single-brand">
-					<img class="img-fluid" src="img/l5.png" alt="">
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End brand Area -->
-
-	<!-- start footer Area -->
-	<footer class="footer-area section-gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-12">
-					<div class="single-footer-widget">
-						<h6>Top Products</h6>
-						<ul class="footer-nav">
-							<li>
-								<a href="#">Managed Website</a>
-							</li>
-							<li>
-								<a href="#">Manage Reputation</a>
-							</li>
-							<li>
-								<a href="#">Power Tools</a>
-							</li>
-							<li>
-								<a href="#">Marketing Service</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6  col-md-12">
-					<div class="single-footer-widget newsletter">
-						<h6>Newsletter</h6>
-						<p>You can trust us. we only send promo offers, not a single spam.</p>
-						<div id="mc_embed_signup">
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-							 method="get" class="form-inline">
-
-								<div class="form-group row" style="width: 100%">
-									<div class="col-lg-8 col-md-12">
-										<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-										 required="" type="email">
-										<div style="position: absolute; left: -5000px;">
-											<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-										</div>
-									</div>
-
-									<div class="col-lg-4 col-md-12">
-										<button class="nw-btn primary-btn">Subscribe
-											<span class="lnr lnr-arrow-right"></span>
-										</button>
-									</div>
-								</div>
-								<div class="info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3  col-md-12">
-					<div class="single-footer-widget mail-chimp">
-						<h6 class="mb-20">Instragram Feed</h6>
-						<ul class="instafeed d-flex flex-wrap">
-							<li>
-								<img src="img/i1.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i2.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i3.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i4.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i5.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i6.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i7.jpg" alt="">
-							</li>
-							<li>
-								<img src="img/i8.jpg" alt="">
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<div class="row footer-bottom d-flex justify-content-between">
-				<p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;
-					<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with
-					<i class="fa fa-heart-o" aria-hidden="true"></i> by
-					<a href="https://colorlib.com" target="_blank">Colorlib</a>
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-				</p>
-				<div class="col-lg-4 col-sm-12 footer-social">
-					<a href="#">
-						<i class="fa fa-facebook"></i>
-					</a>
-					<a href="#">
-						<i class="fa fa-twitter"></i>
-					</a>
-					<a href="#">
-						<i class="fa fa-dribbble"></i>
-					</a>
-					<a href="#">
-						<i class="fa fa-behance"></i>
-					</a>
-				</div>
-			</div>
-		</div>
-	</footer>
-	<!-- End footer Area -->
+	<br>
+	<br>
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
