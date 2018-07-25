@@ -172,7 +172,7 @@
 			<div class="raw text-left">
 				<br/>
 				<h3>Description</h3>
-				<p> Initialize all specified services </p>
+				<p>Initialize services</p>
 
 			</div>
 			<br/>
@@ -203,15 +203,22 @@
 				<tbody>
 					<tr>
 						<td>
+							service
+						</td>
+						<td></td>
+						<td>The services that will be initialized</td>
+					</tr>
+					<tr>
+						<td>
 							--clean
 						</td>
 						<td></td>
-						<td>Clean the existing images..blah blah</td>
+						<td>Do a clean initialization from scratch, directories will be replaced</td>
 					</tr>
 					<tr>
 						<td>--project-name=&lt;project&gt;</td>
 						<td>Defaults to folder name</td>
-						<td>This flag sets the project name in the configuration file to the one specified</td>
+						<td>Sets the project name in the configuration file</td>
 					</tr>
 				</tbody>
 			</table>
@@ -236,11 +243,7 @@
 			</div>
 			<br/>
 			<div>
-				If this command is successfull a docker-compose.yml file will be created, configuring the specified services
-				<br/> Furthermore, any configurable service will have a folder created for it in the directory from which the command was
-				run
-				<br/> This includes services such as Django and MySql
-
+				Creates a docker-compose.yml and any necessary web app directories
 			</div>
 		</div>
 	</section>
@@ -277,14 +280,23 @@
 				<thead>
 					<tr>
 						<th scope="col">Name</th>
+						<th scope="col">Default</th>
 						<th scope="col">Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>
+							service
+						</td>
+						<td>Defaults to all</td>
+						<td>Services to start</td>
+					</tr>
+					<tr>
+						<td>
 							--latest
 						</td>
+						<td></td>
 						<td>This option will pull the latest image from the Stratocumulus docker hub</td>
 					</tr>
 				</tbody>
@@ -303,21 +315,13 @@
 			<div class="card-body bg-light">
 				Creating webapp_mysql ... done
 				<br/> Creating webapp_django ... done
-				<br/> django app available at localhost:&lt;port&gt;
+				<br/> django app available at localhost:32773
 				<br\>
 					logs available using `cumulus logs [&lt;service&gt;] [-f]`
 			</div>
 			<br/>
 			<div>
-				If this command is successfull all initialized services will be running
-				<br/> A port will be in the output specifying where a webapp is running
-				<br/> This command can be run with or without explicit services in the command
-				<br/> With no services specified all will be started, otherwise only those requested
-				<br/> Services will run with the name &lt;project name&gt;_&lt;service name&gt;
-				<br/> Note: &lt;port&gt; will change everytime depending on what ports are available on your machine
-				<br/>
-
-
+				Specified services will be started
 			</div>
 		</div>
 	</section>
@@ -361,8 +365,7 @@
 			</div>
 			<br/>
 			<div>
-				If this command is succesful. All services will be safely stopped
-				<br/> After this command, any running webapp will not be accesable at its port
+				All services will be stopped
 			</div>
 		</div>
 	</section>
@@ -391,10 +394,6 @@
 			<br/>
 
 			<div class="raw d-flex justify-content-left">
-				<h3 class="mb-3">Options</h3>
-			</div>
-
-			<div class="raw d-flex justify-content-left">
 				<h3>Example</h3>
 			</div>
 			<br/>
@@ -411,8 +410,7 @@
 			</div>
 			<br/>
 			<div>
-				This command will kill all Stratocumulus services
-				<br/>Similarly to stop, after this command, any running webapp will not be accesable at its port
+				All services will be killed, corresponding containers will be removed
 			</div>
 		</div>
 	</section>
@@ -436,10 +434,33 @@
 			</div>
 
 			<div class=" col-md header-text text-center card bg-light card-body">
-				cumulus restart [&lt;service&gt;..]
+				cumulus restart [&lt;service&gt;...]
 			</div>
 			<br/>
 
+			<div class="raw d-flex justify-content-left">
+				<h3 class="mb-3">Options</h3>
+			</div>
+
+			<!-- OPTIONS -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							service
+						</td>
+						<td>Defaults to all</td>
+						<td>List of services that will be restarted</td>
+					</tr>
+				</tbody>
+			</table>
 
 			<div class="raw d-flex justify-content-left">
 				<h3>Example</h3>
@@ -457,8 +478,7 @@
 			</div>
 			<br/>
 			<div>
-				If this command is succesfull, the services specified will be restarted
-				<br/> If no services were specified, then all services will be restarted
+				Specifed services will be restarted
 			</div>
 		</div>
 	</section>
