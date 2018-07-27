@@ -48,6 +48,17 @@ then
     
     fi
 
+    if [ "${service}" == "elasticsearch" ]
+    then
+      echo "THIS IS HAPPENING"
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip install django-elasticsearch-dsl
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --elastic-search
+    
+    fi
+
   done
 
 else
@@ -68,6 +79,12 @@ else
     then        
       pip install python-memcached
       bash /service/wait-for-it.sh memcached:11211 --timeout=300
+    fi
+
+    if [ "${service}" == "elasticsearch" ]
+    then        
+      pip install django-elasticsearch-dsl
+      bash /service/wait-for-it.sh elasticsearch:9200 --timeout=300
     fi
   done
 
