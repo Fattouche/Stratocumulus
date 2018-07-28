@@ -7,7 +7,7 @@ class Shell(Base):
     def start_shell(service, shell):
         if service:
             subprocess.call(
-                [DOCKER_COMPOSE, "exec", service, START_SHELL, shell])
+                [DOCKER_COMPOSE, "exec", service[0], START_SHELL, shell])
         else:
             service = parse_services()["WEB_APP"]
             if(len(service) == 1):

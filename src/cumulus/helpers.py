@@ -64,7 +64,9 @@ def get_service_environment_vars(service, all_services):
     environment_vars = {}
 
     if service.lower() == 'django' or service.lower() == 'rails':
-        environment_vars['CUMULUS_PROJECT_NAME'] = get_project_name()
+        project_name = get_project_name()
+
+        environment_vars['CUMULUS_PROJECT_NAME'] = project_name
 
         wait_for_string = ''
         for other_service in all_services:
@@ -96,7 +98,7 @@ def current_shell():
         print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
         shell = "sh"
         return shell
-    shell = raw.split('/', 1)[-1]
+    shell = raw.split('/')[-1]
     if shell not in SHELLS:
         print("Your current shell is unsupported, defaulting to sh. Please see documentation for supported shells.")
         shell = "sh"

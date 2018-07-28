@@ -8,5 +8,6 @@ RUN pip install -r requirements.txt
 
 # Put webapp code in /service
 COPY . /service
+RUN ["chmod", "+x", "cumulus-docker-entrypoint.sh", "start_shell.sh", "wait-for-it.sh"]
 
 ENTRYPOINT ["bash", "cumulus-docker-entrypoint.sh"]
