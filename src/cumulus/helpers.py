@@ -12,7 +12,7 @@ WEB_APP = ["django", "rails"]
 OTHER_SUPPORTED = ["redis", "elasticsearch", "memcached"]
 SUPPORTED = WEB_APP + DATABASE + OTHER_SUPPORTED
 NEED_INIT = WEB_APP + DATABASE
-HAS_CUMULUS_IMAGE = ["mysql", "django"]
+HAS_CUMULUS_IMAGE = ["mysql", "django", "rails"]
 SUPPORTED_BUT_NO_CUMULUS_IMAGE = {
     "redis": "redis", "elasticsearch": "docker.elastic.co/elasticsearch/elasticsearch:6.3.1", "memcached": "memcached"}
 
@@ -63,11 +63,10 @@ def parse_services():
 def get_service_environment_vars(service, all_services):
     environment_vars = {}
 
-    if service.lower() == 'django':
+    if service.lower() == 'django' or service.lower() == 'rails':
         project_name = get_project_name()
 
         environment_vars['CUMULUS_PROJECT_NAME'] = project_name
-
         wait_for_string = ''
         for other_service in all_services:
             if other_service in DATABASE:
