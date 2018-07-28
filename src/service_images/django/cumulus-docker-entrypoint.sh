@@ -52,6 +52,7 @@ then
     then
       echo "THIS IS HAPPENING"
       cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip intsall elasticsearch_dsl==6.1.0  #Due to issue https://github.com/sabricot/django-elasticsearch-dsl/issues/119
       pip install django-elasticsearch-dsl
       cd /service
       python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
