@@ -50,11 +50,14 @@ COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"])
 DOCKER_COMPOSE_VERSION = '3.6'
 
 
-def main():
+def main(opts=None):
     """Main CLI entrypoint."""
     import commands
     prerequisite.check_docker()
-    options = docopt(__doc__, version=VERSION)
+    if(opts):
+        options = opts
+    else:
+        options = docopt(__doc__)
     for (k, v) in options.items():
         if hasattr(commands, k) and v:
             module = getattr(commands, k)

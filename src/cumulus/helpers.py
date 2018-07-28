@@ -75,6 +75,7 @@ def get_service_environment_vars(service, all_services):
         if wait_for_string:
             # remove the last comma from the string
             environment_vars['CUMULUS_WAIT_FOR'] = wait_for_string[:-1]
+
     if service.lower() == 'mysql':
         # Need to do this due to the bug in the MySQL docker container
         # see https://github.com/docker-library/mysql/issues/448#issuecomment-403552073
