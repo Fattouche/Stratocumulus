@@ -94,7 +94,6 @@ def overwrite_settings_for_memcached(settings_as_string):
     )
 
 def overwrite_settings_for_elasticsearch(settings_as_string):
-    # print(settings_as_string)
     start_installed_apps_index = settings_as_string.index('INSTALLED_APPS')
     start_database_dict_index = settings_as_string.index('DATABASES')
     end_database_dict_index = get_end_of_dict_index_from_code_string(settings_as_string, start_database_dict_index)
@@ -145,19 +144,7 @@ def overwrite_settings_for_redis(settings_as_string):
                                new_installed_app_string,
                                settings_as_string[end_installed_apps_index-1:end_database_dict_index],
                                redis_settings_string,
-                               settings_as_string[end_database_dict_index:]) 
-
-
-RQ_QUEUES = {
-    'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
-        'DB': 0,
-        'DEFAULT_TIMEOUT': 360,
-    }
-}
-
-    
+                               settings_as_string[end_database_dict_index:])   
 
 def overwrite_settings_for_mysql(settings_as_string, mysql_config_file_path,
                                 mysql_default_db_name):

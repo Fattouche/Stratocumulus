@@ -64,12 +64,8 @@ class Init(Base):
 
     @staticmethod
     def update_supported(doc, service, working_dir):
-        if service == 'django':
-
-            doc['services'][service]['build'] = {'context': './service_images/django'}
-        else:    
-            doc['services'][service]['image'] = Init.get_image_name(service)
-
+        doc['services'][service]['image'] = Init.get_image_name(service)
+        
         doc['services'][service]['ports'] = ['{0}'.format(PORTS[service])]
         if service in WEB_APP or service in DATABASE:
             doc['services'][service]['volumes'] = [

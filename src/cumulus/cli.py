@@ -5,7 +5,7 @@ Usage:
   cumulus init (<service>...) [--clean] [--project-name=<project>]
   cumulus stop
   cumulus kill
-  cumulus restart [<service>...] [--clean]
+  cumulus restart [<service>...]
   cumulus logs [<service>] [-f]
   cumulus shell [<service>] [--shell=<shell>]
   cumulus -h | --help
@@ -45,7 +45,7 @@ VERSION = '1.0.0'
 PORTS = {"django": "41000", "rails": "41001",
          "redis": "6379", "mysql": "3306", "elasticsearch": "9200", "memcached": "11211"}
 COMMANDS = {"django": "python manage.py runserver 0:{0}".format(PORTS["django"]),
-            "rails": "rails server -b 0.0.0.0:{0}".format(PORTS["rails"]),
+            "rails": "rails server -p {0} -b 0.0.0.0".format(PORTS["rails"]),
             "mysql": "mysqld"}
 DOCKER_COMPOSE_VERSION = '3.6'
 

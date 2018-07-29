@@ -7,13 +7,11 @@ class Logs(Base):
 
     @staticmethod
     def display_logs(service, follow):
-        if service:
-            command = [DOCKER_COMPOSE, "logs"]
-            command.extend(service)
-        else:
-            command = [DOCKER_COMPOSE, "logs"]
+        command = [DOCKER_COMPOSE, "logs"]
         if follow:
             command.append("-f")
+        if service:
+            command.extend(service)
         try:
             subprocess.call(command)
         except KeyboardInterrupt:  # Need to just return from the subprocess

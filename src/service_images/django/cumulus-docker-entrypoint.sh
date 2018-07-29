@@ -89,19 +89,19 @@ else
 
     if [ "${service}" == "memcached" ]
     then        
-      # pip install python-memcached
+      pip install python-memcached        #Just in case
       bash /service/wait-for-it.sh memcached:11211 --timeout=300
     fi
 
     if [ "${service}" == "elasticsearch" ]
     then        
-      # pip install django-elasticsearch-dsl
+      pip install django-elasticsearch-dsl        #Just in case
       bash /service/wait-for-it.sh elasticsearch:9200 --timeout=300
     fi
 
     if [ "${service}" == "redis" ]
     then        
-      # pip install django-elasticsearch-dsl
+      pip install django-rq        #Just in case
       bash /service/wait-for-it.sh redis:6379 --timeout=300
     fi
   done
