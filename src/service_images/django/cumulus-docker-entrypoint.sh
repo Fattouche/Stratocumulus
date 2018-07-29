@@ -37,6 +37,40 @@ then
         --mysql-config-path /cumulus/mysql/my.cnf \
         --mysql-db ${MYSQL_DATABASE}
     fi
+
+    if [ "${service}" == "memcached" ]
+    then
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip install python-memcached
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --memcached
+    
+    fi
+
+    if [ "${service}" == "elasticsearch" ]
+    then
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip intsall elasticsearch_dsl==6.1.0  #Due to issue https://github.com/sabricot/django-elasticsearch-dsl/issues/119
+      pip install django-elasticsearch-dsl
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --elastic-search
+    
+    fi
+
+    if [ "${service}" == "redis" ]
+    then
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip install django-rq
+
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --redis=/cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/urls.py
+    
+    fi
+
+
   done
 
 else
@@ -51,6 +85,24 @@ else
       # Somehow this works with port 3306, even if the port on mysql on the
       # host is not 3306
       bash /service/wait-for-it.sh mysql:3306 --timeout=300
+    fi
+
+    if [ "${service}" == "memcached" ]
+    then        
+      pip install python-memcached        #Just in case
+      bash /service/wait-for-it.sh memcached:11211 --timeout=300
+    fi
+
+    if [ "${service}" == "elasticsearch" ]
+    then        
+      pip install django-elasticsearch-dsl        #Just in case
+      bash /service/wait-for-it.sh elasticsearch:9200 --timeout=300
+    fi
+
+    if [ "${service}" == "redis" ]
+    then        
+      pip install django-rq        #Just in case
+      bash /service/wait-for-it.sh redis:6379 --timeout=300
     fi
   done
 
