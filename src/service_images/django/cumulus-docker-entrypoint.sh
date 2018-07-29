@@ -50,7 +50,6 @@ then
 
     if [ "${service}" == "elasticsearch" ]
     then
-      echo "THIS IS HAPPENING"
       cd /cumulus/django/${CUMULUS_PROJECT_NAME}
       pip intsall elasticsearch_dsl==6.1.0  #Due to issue https://github.com/sabricot/django-elasticsearch-dsl/issues/119
       pip install django-elasticsearch-dsl
@@ -59,6 +58,18 @@ then
         --elastic-search
     
     fi
+
+    if [ "${service}" == "redis" ]
+    then
+      cd /cumulus/django/${CUMULUS_PROJECT_NAME}
+      pip install django-rq
+
+      cd /service
+      python modify-django-settings.py /cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/settings.py \
+        --redis=/cumulus/django/${CUMULUS_PROJECT_NAME}/${CUMULUS_PROJECT_NAME}/urls.py
+    
+    fi
+
 
   done
 
@@ -78,14 +89,20 @@ else
 
     if [ "${service}" == "memcached" ]
     then        
-      pip install python-memcached
+      # pip install python-memcached
       bash /service/wait-for-it.sh memcached:11211 --timeout=300
     fi
 
     if [ "${service}" == "elasticsearch" ]
     then        
-      pip install django-elasticsearch-dsl
+      # pip install django-elasticsearch-dsl
       bash /service/wait-for-it.sh elasticsearch:9200 --timeout=300
+    fi
+
+    if [ "${service}" == "redis" ]
+    then        
+      # pip install django-elasticsearch-dsl
+      bash /service/wait-for-it.sh redis:6379 --timeout=300
     fi
   done
 
