@@ -135,7 +135,6 @@ def overwrite_settings_for_redis(settings_as_string):
     "\t\t'HOST': 'redis',\n"
     "\t\t'PORT': 6379,\n"
     "\t\t'DB': 0,\n"
-    "\t\t'PASSWORD': 'some-password',\n"
     "\t\t'DEFAULT_TIMEOUT': 360,\n"
     "\t}}\n"
     "}}").format()
