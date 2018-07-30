@@ -69,7 +69,7 @@ def get_service_environment_vars(service, all_services):
         environment_vars['CUMULUS_PROJECT_NAME'] = project_name
         wait_for_string = ''
         for other_service in all_services:
-            if other_service in DATABASE:
+            if other_service in DATABASE+OTHER_SUPPORTED:
                 wait_for_string += other_service
                 wait_for_string += ','
 
