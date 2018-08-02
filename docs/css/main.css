@@ -2655,7 +2655,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 .footer-area {
   background: url(../img/footer-bg.jpg) center;
   background-size: cover;
-  padding-top: 100px;
+  padding-top: 0px;
 }
 
 .footer-area .footer-nav li {
@@ -2894,7 +2894,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .footer-bottom {
-  padding-top: 80px;
+  padding-top: 0px;
 }
 
 .footer-text a, .footer-text i {
